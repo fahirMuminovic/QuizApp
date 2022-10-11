@@ -73,37 +73,41 @@ const randomizeCorrectAnswer = () => {
 //check answer
 answerContainers.forEach((answerContainer) => {
 	answerContainer.addEventListener('click', () => {
-        //move to next question
-		questionNumber.value += 1;
-
-        //check if selected answer is correct
+		//check if selected answer is correct
 		if (correctAnswers.includes(answerContainer.lastElementChild.textContent)) {
-             //display that the choosen answer is correct
+			//display that the choosen answer is correct
 			answerContainer.classList.toggle('correct');
 
-            //show popup
+			//show popup
 			modal.classList.toggle('show');
 			modal.firstElementChild.textContent = `🎉 Congratulations that is correct 🎉`;
 
-            //wait for 3 seconds and move to next question, remove toggled classes
+			//wait for 3 seconds and move to next question, remove toggled classes
 			setTimeout(() => {
 				answerContainer.classList.toggle('correct');
 				modal.classList.toggle('show');
+				//move to next question
+				questionNumber.value += 1;
+
 				updateDOM();
 			}, 3000);
 		} else {
-            //display that the choosen answer is incorrect
+			//display that the choosen answer is incorrect
 			answerContainer.classList.toggle('incorrect');
 
-            //show popup
+			//show popup
 			modal.classList.toggle('show');
 			modal.firstElementChild.textContent = `Sorry that is incorrect. The correct answer is:
             ${correctAnswers[questionNumber.value - 1]}`;
 
-            //wait for 3 seconds and move to next question, remove toggled classes
+			//wait for 3 seconds and move to next question, remove toggled classes
 			setTimeout(() => {
 				answerContainer.classList.toggle('incorrect');
 				modal.classList.toggle('show');
+
+				//move to next question
+				questionNumber.value += 1;
+                
 				updateDOM();
 			}, 3000);
 		}
