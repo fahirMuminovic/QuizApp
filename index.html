@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Quiz App</title>
+		<link rel="stylesheet" href="style.css" />
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+        <h1>Quiz Game</h1>
+		<div class="main-container">
+			<div class="question-container">
+				<p class="question" id="question"></p>
+			</div>
+			<div class="answers-container" style="display: flex; flex-direction: column">
+				<span class="answer-wrapper">
+					<div class="answer-letter">A</div>
+					<input type="radio" name="answers" id="answer-a" value="South Korea" />
+					<p class="answerText" id="0"></p>
+				</span>
+
+				<span class="answer-wrapper">
+					<div class="answer-letter">B</div>
+					<input type="radio" name="answers" id="answer-b" value="Portugal" />
+					<p class="answerText" id="1"></p>
+				</span>
+
+				<span class="answer-wrapper">
+					<div class="answer-letter">C</div>
+					<input type="radio" name="answers" id="answer-c" value="Cameroon" />
+					<p class="answerText" id="2"></p>
+				</span>
+
+				<span class="answer-wrapper">
+					<div class="answer-letter">D</div>
+					<input type="radio" name="answers" id="answer-d" value="Germany" />
+					<p class="answerText" id="3"></p>
+				</span>
+			</div>
+		</div>
+		<div class="progress-container">
+			<span>
+				<progress id="questionNumber" value="10" max="20"></progress>
+				<label for="questionNumber">10/20</label>
+			</span>
+			<button>CONTINUE</button>
+		</div>
+	</body>
+</html>

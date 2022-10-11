@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+
+	height: 100vh;
+
+	font-family: 'Inter', sans-serif;
+	font-size: 18px;
+
+	background-color: #e5e5e5;
+}
+
+h1 {
+	/* width: 204px;
+	height: 24px; */
+
+	font-style: normal;
+	font-weight: 600;
+	font-size: 32px;
+
+	color: #000000;
+}
+
+.main-container {
+	width: 80%;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.question-container {
+	font-size: larger;
+	font-weight: 500;
+
+	line-height: 25px;
+
+	margin: 10px 10px;
+	text-align: center;
+}
+
+.answers-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	width: 510px;
+
+	position: relative;
+}
+
+.answer-wrapper {
+	background-color: #f4f3f6;
+	padding: 10px;
+	margin-bottom: 15px;
+
+	width: 310px;
+
+	display: flex;
+	align-items: center;
+
+	border: 1px solid #f4f3f6;
+}
+
+.answer-wrapper:hover {
+	border: 1px solid #f4b400;
+}
+
+.answer-wrapper input {
+	appearance: none;
+}
+
+.answer-wrapper .answer-letter {
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
+
+	border: none;
+	margin-right: 15px;
+
+	background-color: #ede8e3;
+
+	position: relative;
+	/* top: 4%; */
+	left: 5%;
+
+	font-size: large;
+	font-weight: 500;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.answer-wrapper p {
+	font-style: normal;
+	font-weight: 500;
+
+	position: relative;
+	/* top: 2%; */
+	left: 10%;
+}
+
+.progress-container {
+	width: 100vw;
+	height: 75px;
+	background-color: #f4f3f6;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+
+	padding: 10px;
+}
+
+.progress-container label {
+	position: relative;
+	font-size: 12px;
+}
+
+.progress-container button {
+	height: 30px;
+	width: 150px;
+	color: #ede8e3;
+	background: #4b4b4b;
+	opacity: 0.5;
+
+	border: 1px solid #000;
+	border-radius: 5px;
+
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+	font-size: 14px;
+}
+
+.progress-container button:hover {
+	color: #ede8e3;
+	background-color: #1e8b40;
+	opacity: 1;
+	border-color: #1e8b40;
+}
+
+.progress-container progress[value] {
+	/* Reset the default appearance */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	background-color: rgba(117, 117, 117, 0.2);
+	border: 1px solid rgba(117, 117, 117, 0.2);
+	border-radius: 15px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
+
+	/* Dimensions */
+	width: 100px;
+	height: 15px;
+}
+
+.progress-container progress[value]::-moz-progress-bar {
+	background-color: #31cd63;
+	border-radius: 15px;
+}
