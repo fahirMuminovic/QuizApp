@@ -16,6 +16,8 @@ body {
 	font-size: 18px;
 
 	background-color: #e5e5e5;
+
+	position: relative;
 }
 
 h1 {
@@ -55,6 +57,7 @@ h1 {
 	align-items: center;
 
 	width: 510px;
+	min-width: fit-content;
 
 	position: relative;
 }
@@ -65,15 +68,26 @@ h1 {
 	margin-bottom: 15px;
 
 	width: 310px;
+	min-width: fit-content;
 
 	display: flex;
 	align-items: center;
 
-	border: 1px solid #f4f3f6;
+	border: 2px solid #f4f3f6;
+}
+
+.answer-wrapper.correct {
+	border: 2px solid #31cd63 !important;
+	z-index: 2;
+}
+
+.answer-wrapper.incorrect {
+	border: 2px solid #9e2a10 !important;
+	z-index: 2;
 }
 
 .answer-wrapper:hover {
-	border: 1px solid #f4b400;
+	border: 2px solid #f4b400;
 }
 
 .answer-wrapper input {
@@ -83,16 +97,14 @@ h1 {
 .answer-wrapper .answer-letter {
 	border-radius: 50%;
 	width: 35px;
+	min-width: 35px;
 	height: 35px;
+	min-height: 35px;
 
 	border: none;
 	margin-right: 15px;
 
 	background-color: #ede8e3;
-
-	position: relative;
-	/* top: 4%; */
-	left: 5%;
 
 	font-size: large;
 	font-weight: 500;
@@ -100,15 +112,17 @@ h1 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	z-index: 1;
 }
 
 .answer-wrapper p {
 	font-style: normal;
 	font-weight: 500;
 
-	position: relative;
-	/* top: 2%; */
-	left: 10%;
+	text-align: center;
+
+	z-index: 5;
 }
 
 .progress-container {
@@ -125,7 +139,7 @@ h1 {
 
 .progress-container label {
 	position: relative;
-	font-size: 12px;
+	font-size: 13px;
 }
 
 .progress-container button {
@@ -145,9 +159,9 @@ h1 {
 
 .progress-container button:hover {
 	color: #ede8e3;
-	background-color: #1e8b40;
+	background-color: #9e2a10;
 	opacity: 1;
-	border-color: #1e8b40;
+	border-color: #9e2a10;
 }
 
 .progress-container progress[value] {
@@ -169,4 +183,34 @@ h1 {
 .progress-container progress[value]::-moz-progress-bar {
 	background-color: #31cd63;
 	border-radius: 15px;
+}
+
+/* modal */
+.modal {
+    visibility: hidden;
+
+	width: 375px;
+	height: 75px;
+
+	background-color: rgba(117, 117, 117, 0.2);
+
+	border-radius: 8px;
+
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
+
+	position: absolute;
+	top: 85%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+}
+
+.modal p{
+    padding: 10px;
+    font-style: oblique;
+    text-align: center;
+}
+
+.modal.show{
+    visibility: visible;
 }

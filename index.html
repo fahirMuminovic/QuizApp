@@ -9,7 +9,7 @@
 		<script src="script.js" defer></script>
 	</head>
 	<body>
-        <h1>Quiz Game</h1>
+		<h1>Quiz Game</h1>
 		<div class="main-container">
 			<div class="question-container">
 				<p class="question" id="question"></p>
@@ -40,12 +40,17 @@
 				</span>
 			</div>
 		</div>
+
+		<div class="modal show" id="modal">
+			<p id="modal-body">Incorrect answer! The correct answer is:</p>
+		</div>
+
 		<div class="progress-container">
 			<span>
-				<progress id="questionNumber" value="10" max="20"></progress>
-				<label for="questionNumber">10/20</label>
+				<progress id="questionNumber" value="1" max="20"></progress>
+				<label for="questionNumber"></label>
 			</span>
-			<button>CONTINUE</button>
+			<button>QUIT</button>
 		</div>
 	</body>
 </html>
