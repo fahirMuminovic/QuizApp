@@ -21,7 +21,7 @@ async function fetchQuestions() {
 		const fetchedData = {
 			question: `${el.question}`,
 			correctAnswer: `${el.correctAnswer}`,
-			incorrectAnswers: `${el.incorrectAnswers}`,
+			incorrectAnswers: [...el.incorrectAnswers],
 		};
 
 		addData(quizData, fetchedData);
@@ -38,16 +38,18 @@ function updateDOM(providedData = quizData) {
 
 	providedData.forEach((element, index) => {
 		if (index === questionNum) {
+            //display the question on the page
 			question.textContent = element.question;
+
+            //randomize the position of the correct answer
 			let correctAnwserPosition = randomizeCorrectAnswer();
 			let counter = 0;
-			const incorrectAnswersArr = element.incorrectAnswers.split(',');
 
 			answersText.forEach((answer, index) => {
 				if (index === correctAnwserPosition) {
 					answer.textContent = element.correctAnswer;
 				} else {
-					answer.textContent = incorrectAnswersArr[counter];
+					answer.textContent = element.incorrectAnswers[counter];
 					counter++;
 				}
 			});
@@ -72,18 +74,30 @@ answerContainers.forEach((answerContainer) => {
 	answerContainer.addEventListener('click', (event) => {
 		if (correctAnswers.includes(answerContainer.lastElementChild.textContent)) {
 			answerContainer.classList.add('correct');
+
+            modal.classList.toggle('show');
+			modal.firstElementChild.textContent = `🎉 Congratulations that is correct 🎉`;
+
 			questionNumber.value += 1;
 
 			setTimeout(() => {
 				answerContainer.classList.remove('correct');
+                modal.classList.toggle('show');
 				updateDOM();
 			}, 3000);
 		} else {
 			answerContainer.classList.add('incorrect');
+
+			modal.classList.toggle('show');
+			modal.firstElementChild.textContent = `Sorry that is incorrect. The correct answer is:
+            ${correctAnswers[questionNumber.value - 1]}
+            `;
+
 			questionNumber.value += 1;
 
 			setTimeout(() => {
 				answerContainer.classList.remove('incorrect');
+				modal.classList.toggle('show');
 				updateDOM();
 			}, 3000);
 		}

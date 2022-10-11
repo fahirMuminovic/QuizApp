@@ -81,13 +81,25 @@ h1 {
 	z-index: 2;
 }
 
+.answer-wrapper.correct > div {
+	background-color: #31cd63 !important;
+}
+
 .answer-wrapper.incorrect {
-	border: 2px solid #9e2a10 !important;
+	border: 2px solid rgba(255, 0, 0, 0.5) !important;
 	z-index: 2;
+}
+
+.answer-wrapper.incorrect > div {
+	background-color: rgba(255, 0, 0, 0.5) !important;
 }
 
 .answer-wrapper:hover {
 	border: 2px solid #f4b400;
+}
+
+.answer-wrapper:hover > div {
+	background-color: rgba(244, 180, 0, 0.8);
 }
 
 .answer-wrapper input {
@@ -104,7 +116,9 @@ h1 {
 	border: none;
 	margin-right: 15px;
 
-	background-color: #ede8e3;
+	background-color: rgba(117, 117, 117, 0.1);
+	border: 1px solid rgba(117, 117, 117, 0.1);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
 
 	font-size: large;
 	font-weight: 500;
@@ -187,30 +201,36 @@ h1 {
 
 /* modal */
 .modal {
-    visibility: hidden;
+	visibility: hidden;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
 	width: 375px;
 	height: 75px;
 
-	background-color: rgba(117, 117, 117, 0.2);
+	background-color: #e5e5e5;
 
 	border-radius: 8px;
 
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
+    border: 2px solid #4b4b4b;
 
 	position: absolute;
 	top: 85%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 
+	z-index: 10;
 }
 
-.modal p{
-    padding: 10px;
-    font-style: oblique;
-    text-align: center;
+.modal p {
+	padding: 10px;
+	font-style: oblique;
+	text-align: center;
 }
 
-.modal.show{
-    visibility: visible;
+.modal.show {
+	visibility: visible;
 }
