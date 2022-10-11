@@ -67,8 +67,8 @@ h1 {
 	padding: 10px;
 	margin-bottom: 15px;
 
-	width: 310px;
-	min-width: fit-content;
+	width: 80%;
+	/* min-width: fit-content; */
 
 	display: flex;
 	align-items: center;
