@@ -74,6 +74,8 @@ h1 {
 	align-items: center;
 
 	border: 2px solid #f4f3f6;
+
+	cursor: pointer;
 }
 
 .answer-wrapper.correct {
@@ -128,15 +130,19 @@ h1 {
 	justify-content: center;
 
 	z-index: 1;
+
+	cursor: pointer;
 }
 
 .answer-wrapper p {
 	font-style: normal;
 	font-weight: 500;
 
-	text-align: center;
+	text-align: left;
 
 	z-index: 5;
+
+	cursor: pointer;
 }
 
 .progress-container {
