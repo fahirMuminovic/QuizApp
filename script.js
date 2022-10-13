@@ -4,15 +4,16 @@ const answerContainers = document.querySelectorAll('.answer-wrapper');
 const questionNumber = document.getElementById('questionNumber');
 const modal = document.getElementById('modal');
 
-const quizData = [];
 const correctAnswers = [];
 const incorrectAnswers = [];
 
 fetchQuestions();
+updateDOM();
 
 //functions
 async function fetchQuestions() {
-	const response = await fetch('https://the-trivia-api.com/api/questions?limit=20');
+	const quizData = [];
+	const response = await fetch('https://the-trivia-api.com/api/questions?limit=5');
 	const data = await response.json();
 
 	/* console.log(data); */
@@ -29,11 +30,14 @@ async function fetchQuestions() {
 		addData(incorrectAnswers, el.incorrectAnswer);
 	});
 
-	updateDOM(quizData);
+	/* console.log('1: ',quizData); */
+	return quizData;
 }
 
 //pupulates the UI with the question and answers
-function updateDOM(providedData = quizData) {
+async function updateDOM() {
+	let providedData = await fetchQuestions();
+	console.log('2: ', providedData);
 	const questionNum = questionNumber.value - 1;
 
 	providedData.forEach((element, elIndex) => {
@@ -107,7 +111,7 @@ answerContainers.forEach((answerContainer) => {
 
 				//move to next question
 				questionNumber.value += 1;
-                
+
 				updateDOM();
 			}, 3000);
 		}
