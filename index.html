@@ -13,48 +13,87 @@
 		<script src="script.js" defer></script>
 	</head>
 	<body>
-		<h1>Quiz Game</h1>
-		<div class="main-container">
-			<div class="question-container">
-				<p class="question" id="question"></p>
-			</div>
-			<div class="answers-container" style="display: flex; flex-direction: column">
-				<span class="answer-wrapper">
-					<div class="answer-letter">A</div>
-					<input type="radio" name="answers" id="answer-a" value="South Korea" />
-					<p class="answerText" id="0"></p>
-				</span>
+		<div class="game-setup" id="game-setup">
+			<fieldset>
+				<legend>Game SetUp</legend>
+				<label for="number-of-questions">Enter the desired number of questions</label>
+				<input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" />
 
-				<span class="answer-wrapper">
-					<div class="answer-letter">B</div>
-					<input type="radio" name="answers" id="answer-b" value="Portugal" />
-					<p class="answerText" id="1"></p>
-				</span>
+				<div class="categories-wrapper">
+					<label for="categories">Choose categories</label>
+					<select name="categories" id="categories" multiple>
+						<option value="arts_and_literature">Arts & Literature</option>
+						<option value="film_and_tv">Film & TV</option>
+						<option value="food_and_drink">Food & Drink</option>
+						<option value="general_knowledge">General Knowledge</option>
+						<option value="geography">Geography</option>
+						<option value="history">History</option>
+						<option value="music">Music</option>
+						<option value="science">Science</option>
+						<option value="society_and_culture">Society & Culture</option>
+						<option value="sports_and_leisure">Sports & Leisure</option>
+					</select>
+				</div>
 
-				<span class="answer-wrapper">
-					<div class="answer-letter">C</div>
-					<input type="radio" name="answers" id="answer-c" value="Cameroon" />
-					<p class="answerText" id="2"></p>
-				</span>
+				<div class="game-difficulty-wrapper">
+					<label for="game-difficulty">Choose desired difficulty of questions</label>
+					<select name="game-difficulty" id="game-difficulty">
+						<option value="easy">Easy</option>
+						<option value="medium">Medium</option>
+						<option value="hard">Hard</option>
+					</select>
+				</div>
 
-				<span class="answer-wrapper">
-					<div class="answer-letter">D</div>
-					<input type="radio" name="answers" id="answer-d" value="Germany" />
-					<p class="answerText" id="3"></p>
-				</span>
-			</div>
+				<button id="start">START</button>
+				<!-- unese broj pitanja, kategoriju pitanja i tezinu pitanja i
+klikne “START” button. -->
+			</fieldset>
 		</div>
 
-		<div class="modal" id="modal">
-			<p id="modal-body"></p>
-		</div>
+		<div class="game-elements">
+			<h1>Quiz Game</h1>
+			<div class="main-container">
+				<div class="question-container">
+					<p class="question" id="question"></p>
+				</div>
+				<div class="answers-container" style="display: flex; flex-direction: column">
+					<span class="answer-wrapper">
+						<div class="answer-letter">A</div>
+						<input type="radio" name="answers" id="answer-a" value="South Korea" />
+						<p class="answerText" id="0"></p>
+					</span>
 
-		<div class="progress-container">
-			<span>
-				<progress id="questionNumber" value="1" max="20"></progress>
-				<label for="questionNumber"></label>
-			</span>
-			<button>QUIT</button>
+					<span class="answer-wrapper">
+						<div class="answer-letter">B</div>
+						<input type="radio" name="answers" id="answer-b" value="Portugal" />
+						<p class="answerText" id="1"></p>
+					</span>
+
+					<span class="answer-wrapper">
+						<div class="answer-letter">C</div>
+						<input type="radio" name="answers" id="answer-c" value="Cameroon" />
+						<p class="answerText" id="2"></p>
+					</span>
+
+					<span class="answer-wrapper">
+						<div class="answer-letter">D</div>
+						<input type="radio" name="answers" id="answer-d" value="Germany" />
+						<p class="answerText" id="3"></p>
+					</span>
+				</div>
+			</div>
+
+			<div class="modal" id="modal">
+				<p id="modal-body"></p>
+			</div>
+
+			<div class="progress-container">
+				<span>
+					<progress id="questionNumber" value="1" max="20"></progress>
+					<label for="questionNumber"></label>
+				</span>
+				<button>QUIT</button>
+			</div>
 		</div>
 	</body>
 </html>

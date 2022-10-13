@@ -1,3 +1,7 @@
+//game setup assets
+const startBtn = document.getElementById('start');
+const startModal = document.getElementById('game-setup');
+//game assets
 const questionElement = document.getElementById('question');
 const answersTextElement = document.querySelectorAll('p.answerText');
 const answerContainers = document.querySelectorAll('.answer-wrapper');
@@ -9,10 +13,21 @@ const correctAnswers = [];
 const incorrectAnswers = [];
 
 //Event Listeners//
-//make api request for questions
-window.onload = fetchQuestions();
-//display the first question
-window.onload = populateUI();
+startBtn.addEventListener('click', (e) => {
+	e.preventDefault();
+	//get api options
+	/* configureGame(); */
+	//make api request for questions
+	fetchQuestions();
+	//hide game config modal
+	startGame();
+	//display the first questionscript.js
+	populateUI();
+});
+
+/* window.onload = fetchQuestions();
+
+window.onload = populateUI(); */
 //check answer
 answerContainers.forEach((answerContainer) => {
 	answerContainer.addEventListener('click', (event) => {
@@ -20,11 +35,22 @@ answerContainers.forEach((answerContainer) => {
 	});
 });
 
-//functions
+//Functions//
 
 //fetches data from https://the-trivia-api.com
 async function fetchQuestions() {
-	const response = await fetch('https://the-trivia-api.com/api/questions?limit=5&region=BA');
+	const gameConfig = configureGame();
+	const categories = gameConfig.categories;
+	const limit = gameConfig.limit;
+	const difficulty = gameConfig.difficulty;
+
+	console.log(categories);
+	console.log(limit);
+	console.log(difficulty);
+
+	//https://the-trivia-api.com/api/questions?categories=arts_and_literature,film_and_tv,food_and_drink,general_knowledge&limit=5&difficulty=hard
+	const url = `https://the-trivia-api.com/api/questions?categories=${categories}&${limit}&${difficulty}`;
+	const response = await fetch(url);
 	const data = await response.json();
 
 	data.forEach((el) => {
@@ -41,12 +67,31 @@ async function fetchQuestions() {
 	return quizData;
 }
 
+function configureGame() {
+	const categories = document.querySelectorAll('#categories option:checked');
+	const numberOfQuestions = document.getElementById('number-of-questions');
+	const gameDifficulty = document.querySelectorAll('#game-difficulty option:checked');
+
+	let choosenCategories = [...categories].map((option) => option.value).join(',');
+	let choosenQuestionNumber = numberOfQuestions.value;
+	let choosengameDifficulty = [...gameDifficulty].map((option) => option.value).join();
+
+	console.log('that');
+
+	return {
+		categories: choosenCategories,
+		limit: choosenQuestionNumber,
+		difficulty: choosengameDifficulty,
+	};
+}
+
+function startGame() {
+	startModal.classList.add('done');
+}
 //pupulates the UI with the question and answers on initial page load
 async function populateUI() {
 	let providedData = await fetchQuestions();
 	let firstQuestion = providedData[0];
-
-	console.log('2: ', providedData);
 
 	//display the first question that is fetched on the web page
 	questionElement.textContent = firstQuestion.questionText;
