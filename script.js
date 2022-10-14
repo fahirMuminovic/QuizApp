@@ -11,11 +11,11 @@ const answersTextElement = document.querySelectorAll('p.answerText');
 const answerContainers = document.querySelectorAll('.answer-wrapper');
 const questionNumberElement = document.getElementById('questionNumber');
 const modal = document.getElementById('modal');
+const endGameModal = document.getElementById('game-end-modal');
 
 const quizData = [];
 const correctAnswers = [];
 const incorrectAnswers = [];
-/* const gameConfig = {}; */
 
 //Event Listeners//
 startBtn.addEventListener('click', (e) => {
@@ -29,11 +29,11 @@ numberOfQuestions.addEventListener('input', () => {
 	sliderValue.innerText = numberOfQuestions.value;
 });
 
-window.onload = () =>{
+window.onload = () => {
 	numberOfQuestions.value = 10;
 	sliderValue.innerText = numberOfQuestions.value;
 };
-/* window.onload = populateUI(); */
+
 //check answer
 answerContainers.forEach((answerContainer) => {
 	answerContainer.addEventListener('click', (event) => {
@@ -123,6 +123,12 @@ function displayPossibleAnswers(question) {
 function nextQuestion(questions = quizData) {
 	//get the index of next question
 	const questionNum = questionNumberElement.value;
+	console.log(questionNum);
+
+	if (questionNum === quizData.length) {
+		endGame();
+	}
+
 	//increment the dom element in progress bar
 	questionNumberElement.value += 1;
 
@@ -206,6 +212,7 @@ const updateProgressBar = () => {
 	questionNumberElement.nextElementSibling.textContent = `${questionNumberElement.value}/${quizData.length}`;
 };
 
+//TODO improve this
 let show = true;
 const checkboxes = document.getElementById('checkBoxes');
 
@@ -218,3 +225,10 @@ function showCheckboxes() {
 		show = true;
 	}
 }
+
+//TODO: implement endgame screen with score, number of correct answers, number of inccorect ansers, play again button
+function endGame() {
+	endGameModal.classList.add('show');
+}
+
+//TODO implement the QUIT button during game play
