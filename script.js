@@ -1,6 +1,7 @@
 //game setup assets
 const startBtn = document.getElementById('start');
 const startModal = document.getElementById('game-setup');
+
 //game assets
 const questionElement = document.getElementById('question');
 const answersTextElement = document.querySelectorAll('p.answerText');
@@ -11,6 +12,7 @@ const modal = document.getElementById('modal');
 const quizData = [];
 const correctAnswers = [];
 const incorrectAnswers = [];
+/* const gameConfig = {}; */
 
 //Event Listeners//
 startBtn.addEventListener('click', (e) => {
@@ -18,11 +20,11 @@ startBtn.addEventListener('click', (e) => {
 	//get api options
 	/* configureGame(); */
 	//make api request for questions
-	fetchQuestions();
+	/* fetchQuestions(); */
 	//hide game config modal
 	startGame();
 	//display the first questionscript.js
-	populateUI();
+	/* populateUI(); */
 });
 
 /* window.onload = fetchQuestions();
@@ -39,44 +41,39 @@ answerContainers.forEach((answerContainer) => {
 
 //fetches data from https://the-trivia-api.com
 async function fetchQuestions() {
-	const gameConfig = configureGame();
+	const gameConfig = await configureGame();
 	const categories = gameConfig.categories;
 	const limit = gameConfig.limit;
 	const difficulty = gameConfig.difficulty;
 
-	console.log(categories);
-	console.log(limit);
-	console.log(difficulty);
-
 	//https://the-trivia-api.com/api/questions?categories=arts_and_literature,film_and_tv,food_and_drink,general_knowledge&limit=5&difficulty=hard
-	const url = `https://the-trivia-api.com/api/questions?categories=${categories}&${limit}&${difficulty}`;
+	const url = `https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}&difficulty=${difficulty}`;
 	const response = await fetch(url);
 	const data = await response.json();
 
 	data.forEach((el) => {
 		const fetchedData = {
 			questionText: `${el.question}`,
-			correctAnswerText: `${el.correctAnswer}`,
+			correctAnswerText: `${el.correctAnswer.trim()}`,
 			incorrectAnswersText: [...el.incorrectAnswers],
 		};
 		//add this element to global arrays
 		addData(quizData, fetchedData);
 		addData(correctAnswers, el.correctAnswer);
-		addData(incorrectAnswers, el.incorrectAnswer);
+		addData(incorrectAnswers, el.incorrectAnswers);
 	});
+	console.log(quizData);
 	return quizData;
 }
 
-function configureGame() {
+async function configureGame() {
 	const categories = document.querySelectorAll('#categories option:checked');
 	const numberOfQuestions = document.getElementById('number-of-questions');
 	const gameDifficulty = document.querySelectorAll('#game-difficulty option:checked');
-
+	//get the user configurations for the game and format them
 	let choosenCategories = [...categories].map((option) => option.value).join(',');
 	let choosenQuestionNumber = numberOfQuestions.value;
 	let choosengameDifficulty = [...gameDifficulty].map((option) => option.value).join();
-
-	console.log('that');
 
 	return {
 		categories: choosenCategories,
@@ -85,7 +82,10 @@ function configureGame() {
 	};
 }
 
-function startGame() {
+async function startGame() {
+	//make sure that the UI is populated
+	await populateUI();
+	//removes the modal used for game configuration on page load
 	startModal.classList.add('done');
 }
 //pupulates the UI with the question and answers on initial page load
@@ -99,6 +99,7 @@ async function populateUI() {
 	displayPossibleAnswers(firstQuestion);
 
 	//update the ProgressBar
+	/* questionNumberElement.value = 1; */
 	updateProgressBar();
 }
 
@@ -120,7 +121,10 @@ function displayPossibleAnswers(question) {
 }
 
 function nextQuestion(questions = quizData) {
-	const questionNum = questionNumberElement.value - 1;
+	//get the index of next question
+	const questionNum = questionNumberElement.value;
+	//increment the dom element in progress bar
+	questionNumberElement.value += 1;
 
 	questions.forEach((question, elIndex) => {
 		if (elIndex === questionNum) {
@@ -170,7 +174,7 @@ function checkUsersAnswer(event) {
 		//show popup
 		modal.classList.toggle('show');
 		modal.firstElementChild.textContent = `Sorry that is incorrect. The correct answer is:
-		${correctAnswers[questionNumberElement.value - 2]}`;
+		${correctAnswers[questionNumberElement.value - 1]}`;
 
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
@@ -193,10 +197,8 @@ const randomizeCorrectAnswer = () => {
 };
 
 const updateProgressBar = () => {
+	//set the max value on the dom element according to the user inputed limit to the api call
+	questionNumberElement.max = quizData.length;
 	//display the current question number and total questions
 	questionNumberElement.nextElementSibling.textContent = `${questionNumberElement.value}/${quizData.length}`;
-	//increment the question index
-	questionNumberElement.value += 1;
-
-	//TODO: set the max value on the dom element according to the user inputed limit to the api call
 };

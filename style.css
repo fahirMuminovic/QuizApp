@@ -14,8 +14,6 @@ body {
 }
 
 .game-setup {
-	visibility: visible;
-
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -26,11 +24,11 @@ body {
 	background-color: #000;
 	height: 100vh;
 	width: 100vw;
-	z-index: 999;
+	z-index: 15;
 }
 
-.game-setup.done{
-	visibility: hidden;
+.game-setup.done {
+	display: none;
 }
 
 .game-setup fieldset {
@@ -122,20 +120,22 @@ h1 {
 
 .answer-wrapper.correct {
 	border: 2px solid #31cd63 !important;
-	z-index: 2;
+	z-index: 5;
 }
 
 .answer-wrapper.correct > div {
 	background-color: #31cd63 !important;
+	z-index: 5;
 }
 
 .answer-wrapper.incorrect {
 	border: 2px solid rgba(255, 0, 0, 0.5) !important;
-	z-index: 2;
+	z-index: 5;
 }
 
 .answer-wrapper.incorrect > div {
 	background-color: rgba(255, 0, 0, 0.5) !important;
+	z-index: 5;
 }
 
 .answer-wrapper:hover {
@@ -171,7 +171,7 @@ h1 {
 	align-items: center;
 	justify-content: center;
 
-	z-index: 1;
+	z-index: 2;
 
 	cursor: pointer;
 }
@@ -182,7 +182,7 @@ h1 {
 
 	text-align: left;
 
-	z-index: 5;
+	z-index: 4;
 
 	cursor: pointer;
 }
