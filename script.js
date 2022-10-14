@@ -62,7 +62,7 @@ async function fetchQuestions() {
 		addData(correctAnswers, el.correctAnswer);
 		addData(incorrectAnswers, el.incorrectAnswers);
 	});
-	console.log(quizData);
+	// console.log(quizData);
 	return quizData;
 }
 
@@ -140,21 +140,25 @@ function nextQuestion(questions = quizData) {
 function checkUsersAnswer(event) {
 	let answerContainer = event.target;
 	let selectedAnswerText = '';
+	let container = undefined;
 
 	//depending on which part of the answer container is clicked get the clicked answer text
-	if (event.target.classList.contains('answerText')) {
+	if (answerContainer.classList.contains('answerText')) {
+		container = answerContainer.parentElement;
 		selectedAnswerText = answerContainer.innerText.trim();
-	} else if (event.target.classList.contains('answer-letter')) {
-		let parentEl = answerContainer.parentElement;
-		selectedAnswerText = parentEl.lastElementChild.innerText.trim();
-	} else if (event.target.classList.contains('answer-wrapper')) {
+	} else if (answerContainer.classList.contains('answer-letter')) {
+		container = answerContainer.parentElement;
+		selectedAnswerText = container.lastElementChild.innerText.trim();
+	} else if (answerContainer.classList.contains('answer-wrapper')) {
+		container = answerContainer;
 		selectedAnswerText = answerContainer.lastElementChild.textContent.trim();
 	}
 
 	//check if selected answer is correct
 	if (correctAnswers.includes(selectedAnswerText)) {
 		//display that the choosen answer is correct
-		answerContainer.classList.toggle('correct');
+		console.log(answerContainer.parentElement);
+		container.classList.toggle('correct');
 
 		//show popup
 		modal.classList.toggle('show');
@@ -162,14 +166,14 @@ function checkUsersAnswer(event) {
 
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
-			answerContainer.classList.toggle('correct');
+			container.classList.toggle('correct');
 			modal.classList.toggle('show');
 			//move to next question
 			nextQuestion();
 		}, 3000);
 	} else {
 		//display that the choosen answer is incorrect
-		answerContainer.classList.toggle('incorrect');
+		container.classList.toggle('incorrect');
 
 		//show popup
 		modal.classList.toggle('show');
@@ -178,7 +182,7 @@ function checkUsersAnswer(event) {
 
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
-			answerContainer.classList.toggle('incorrect');
+			container.classList.toggle('incorrect');
 			modal.classList.toggle('show');
 
 			//move to next question
