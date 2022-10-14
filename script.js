@@ -1,7 +1,10 @@
 //game setup assets
 const startBtn = document.getElementById('start');
 const startModal = document.getElementById('game-setup');
-
+const categories = document.querySelectorAll('#checkBoxes input:checked');
+const numberOfQuestions = document.getElementById('number-of-questions');
+const gameDifficulty = document.querySelectorAll('#game-difficulty option:checked');
+const sliderValue = document.getElementById('range-slider-value');
 //game assets
 const questionElement = document.getElementById('question');
 const answersTextElement = document.querySelectorAll('p.answerText');
@@ -17,19 +20,20 @@ const incorrectAnswers = [];
 //Event Listeners//
 startBtn.addEventListener('click', (e) => {
 	e.preventDefault();
-	//get api options
-	/* configureGame(); */
-	//make api request for questions
-	/* fetchQuestions(); */
+
 	//hide game config modal
 	startGame();
-	//display the first questionscript.js
-	/* populateUI(); */
 });
 
-/* window.onload = fetchQuestions();
+numberOfQuestions.addEventListener('input', () => {
+	sliderValue.innerText = numberOfQuestions.value;
+});
 
-window.onload = populateUI(); */
+window.onload = () =>{
+	numberOfQuestions.value = 10;
+	sliderValue.innerText = numberOfQuestions.value;
+};
+/* window.onload = populateUI(); */
 //check answer
 answerContainers.forEach((answerContainer) => {
 	answerContainer.addEventListener('click', (event) => {
@@ -62,14 +66,10 @@ async function fetchQuestions() {
 		addData(correctAnswers, el.correctAnswer);
 		addData(incorrectAnswers, el.incorrectAnswers);
 	});
-	// console.log(quizData);
 	return quizData;
 }
 
 async function configureGame() {
-	const categories = document.querySelectorAll('#categories option:checked');
-	const numberOfQuestions = document.getElementById('number-of-questions');
-	const gameDifficulty = document.querySelectorAll('#game-difficulty option:checked');
 	//get the user configurations for the game and format them
 	let choosenCategories = [...categories].map((option) => option.value).join(',');
 	let choosenQuestionNumber = numberOfQuestions.value;
@@ -157,7 +157,6 @@ function checkUsersAnswer(event) {
 	//check if selected answer is correct
 	if (correctAnswers.includes(selectedAnswerText)) {
 		//display that the choosen answer is correct
-		console.log(answerContainer.parentElement);
 		container.classList.toggle('correct');
 
 		//show popup
@@ -206,3 +205,16 @@ const updateProgressBar = () => {
 	//display the current question number and total questions
 	questionNumberElement.nextElementSibling.textContent = `${questionNumberElement.value}/${quizData.length}`;
 };
+
+let show = true;
+const checkboxes = document.getElementById('checkBoxes');
+
+function showCheckboxes() {
+	if (show) {
+		checkboxes.style.display = 'block';
+		show = false;
+	} else {
+		checkboxes.style.display = 'none';
+		show = true;
+	}
+}

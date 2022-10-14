@@ -14,25 +14,74 @@
 	</head>
 	<body>
 		<div class="game-setup" id="game-setup">
+			<h1 class="setup">Quiz Game</h1>
+
 			<fieldset>
-				<legend>Game SetUp</legend>
-				<label for="number-of-questions">Enter the desired number of questions</label>
-				<input type="number" name="number-of-questions" id="number-of-questions" min="1" max="50" />
+				<legend>Game Configuration</legend>
+				<label for="number-of-questions">Choose the desired number of questions</label>
+				<input
+					type="range"
+					name="number-of-questions"
+					id="number-of-questions"
+					min="1"
+					max="50"
+					value="" />
+				<label for="number-of-questions" id="range-slider-value"></label>
 
 				<div class="categories-wrapper">
-					<label for="categories">Choose categories</label>
-					<select name="categories" id="categories" multiple>
-						<option value="arts_and_literature">Arts & Literature</option>
-						<option value="film_and_tv">Film & TV</option>
-						<option value="food_and_drink">Food & Drink</option>
-						<option value="general_knowledge">General Knowledge</option>
-						<option value="geography">Geography</option>
-						<option value="history">History</option>
-						<option value="music">Music</option>
-						<option value="science">Science</option>
-						<option value="society_and_culture">Society & Culture</option>
-						<option value="sports_and_leisure">Sports & Leisure</option>
-					</select>
+					<label for="multipleSelection">Choose categories</label>
+					<div class="multipleSelection" id="multipleSelection">
+						<div class="selectBox" onclick="showCheckboxes()">
+							<select>
+								<option>Click to expand</option>
+							</select>
+							<div class="overSelect"></div>
+						</div>
+
+						<div id="checkBoxes">
+							<label for="arts_and_literature">
+								<input type="checkbox" id="arts_and_literature" value="arts_and_literature" />
+								Arts & Literature
+							</label>
+
+							<label for="film_and_tv">
+								<input type="checkbox" id="film_and_tv" value="film_and_tv" />
+								Film & TV
+							</label>
+							<label for="food_and_drink">
+								<input type="checkbox" id="food_and_drink" value="food_and_drink" />
+								Food & Drink
+							</label>
+							<label for="general_knowledge">
+								<input type="checkbox" id="general_knowledge" value="general_knowledge" />
+								General Knowledge
+							</label>
+							<label for="geography">
+								<input type="checkbox" id="geography" value="geography" />
+								Geography
+							</label>
+							<label for="history">
+								<input type="checkbox" id="history" value="history" />
+								History
+							</label>
+							<label for="music">
+								<input type="checkbox" id="music" value="music" />
+								Music
+							</label>
+							<label for="science">
+								<input type="checkbox" id="science" value="science" />
+								Science
+							</label>
+							<label for="society_and_culture">
+								<input type="checkbox" id="society_and_culture" value="society_and_culture" />
+								Society & Culture
+							</label>
+							<label for="sports_and_leisure">
+								<input type="checkbox" id="sports_and_leisure" value="sports_and_leisure" />
+								Sports & Leisure
+							</label>
+						</div>
+					</div>
 				</div>
 
 				<div class="game-difficulty-wrapper">
@@ -83,6 +132,11 @@
 
 			<div class="modal" id="modal">
 				<p id="modal-body"></p>
+			</div>
+
+			<div class="game-end-modal" id="game-end-modal">
+				<h3>You have reached the end.</h3>
+				<button id="play-again">PLAY AGAIN</button>
 			</div>
 
 			<div class="progress-container">
