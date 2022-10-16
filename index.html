@@ -137,16 +137,25 @@
 			<div class="game-end-modal" id="game-end-modal">
 				<div class="end-game-modal-body">
 					<h3>You have reached the end.</h3>
+					<object data="svg/trophy.svg" type="image/svg+xml" class="trophy"></object>
+					<div class="score-container">
+						<span>Your Score:</span>
+						<span id="score">8000 PTS</span>
+					</div>
 					<div>
 						<span class="correctAnswers">
 							You answered
 							<span id="correctAnswersDisplay"></span>
-							questions correctly.
+							questions
+							<i>correctly</i>
+							.
 						</span>
 						<span class="incorrectAnswers">
 							You answered
 							<span id="incorrectAnswersDisplay"></span>
-							questions incorrectly.
+							questions
+							<i>incorrectly</i>
+							.
 						</span>
 					</div>
 					<button id="play-again">PLAY AGAIN</button>

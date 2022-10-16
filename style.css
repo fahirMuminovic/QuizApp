@@ -393,8 +393,8 @@ button:hover {
 }
 
 .end-game-modal-body {
-	height: 100vh;
-	width: 100vw;
+	height: 96vh;
+	width: 80vw;
 
 	display: flex;
 	flex-direction: column;
@@ -407,18 +407,45 @@ h3 {
 	font-weight: 600;
 }
 
+.trophy {
+	height: 25%;
+	opacity: 0.815;
+}
+
 .end-game-modal-body > div {
 	display: flex;
 	flex-direction: column;
+}
+
+div.score-container {
+	width: 90%;
+	max-width: 500px;
+
+	background-color: #F4F3F6;
+
+	border: 1.99405px solid rgba(0, 0, 0, 0.30);
+	border-radius: 8px;
+
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+	margin: 20px 0px;
+	padding: 11px 15px;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#score {
+	font-style: oblique;
+	font-weight: 600;
 }
 
 .correctAnswers,
 .incorrectAnswers,
 #correctAnswersDisplay,
 #incorrectAnswersDisplay {
-	/* margin-bottom: 25px; */
-
-	/* align-self: flex-start; */
 	text-align: center;
 
 	font-style: italic;
@@ -429,6 +456,16 @@ h3 {
 #incorrectAnswersDisplay {
 	font-weight: 600;
 	font-size: 32px;
+}
+
+span.correctAnswers > i,
+span.incorrectAnswers > i {
+	font-style: oblique;
+	font-weight: 600;
+}
+
+span.correctAnswers > i {
+	margin-top: -50px;
 }
 
 button#play-again {
