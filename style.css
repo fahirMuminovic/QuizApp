@@ -14,6 +14,10 @@ body {
 	background-color: #e5e5e5;
 }
 
+span{
+	cursor: default;
+}
+
 .game-setup {
 	display: flex;
 	flex-direction: column;
@@ -235,23 +239,14 @@ h1.setup {
 .progress-container button {
 	height: 30px;
 	width: 150px;
-	color: #ede8e3;
-	background: #4b4b4b;
-	opacity: 0.5;
 
-	border: 1px solid #000;
-	border-radius: 5px;
-
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-	font-size: 14px;
+	line-height: 15px;
 }
 
 .progress-container button:hover {
 	color: #ede8e3;
-	background-color: #9e2a10;
-	opacity: 1;
-	border-color: #9e2a10;
+	background-color: rgb(158, 42, 16);
+	border-color: rgb(158, 42, 16);
 }
 
 .progress-container progress[value] {

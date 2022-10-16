@@ -1,4 +1,4 @@
-//game setup assets
+//game setup assetsionNumber
 const startBtn = document.getElementById('start');
 const startModal = document.getElementById('game-setup');
 const numberOfQuestions = document.getElementById('number-of-questions');
@@ -10,15 +10,18 @@ const answerContainers = document.querySelectorAll('.answer-wrapper');
 const questionNumberElement = document.getElementById('questionNumber');
 const modal = document.getElementById('modal');
 const endGameModal = document.getElementById('game-end-modal');
+const quitButton = document.getElementById('quit-button');
 
-const quizData = [];
-const correctAnswers = [];
-const incorrectAnswers = [];
+let quizData = [];
+let correctAnswers = [];
+let incorrectAnswers = [];
+
+let correctlyAnswered = [];
+let incorrectlyAnswered = [];
 
 //Event Listeners//
 startBtn.addEventListener('click', (e) => {
 	e.preventDefault();
-	//hide game config modal
 	startGame();
 });
 
@@ -31,12 +34,14 @@ window.onload = () => {
 	sliderValue.innerText = numberOfQuestions.value;
 };
 
-//check answer
 answerContainers.forEach((answerContainer) => {
+	//check answer
 	answerContainer.addEventListener('click', (event) => {
 		checkUsersAnswer(event);
 	});
 });
+
+quitButton.addEventListener('click', quitGame);
 
 //Functions//
 
@@ -46,12 +51,10 @@ async function fetchQuestions() {
 	const categories = gameConfig.categories;
 	const limit = Number(gameConfig.limit);
 	const difficulty = gameConfig.difficulty;
-	console.log(gameConfig);
-	//https://the-trivia-api.com/api/questions?categories=arts_and_literature,film_and_tv,food_and_drink,general_knowledge&limit=5&difficulty=hard
+
 	const url = `https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}&difficulty=${difficulty}`;
 	const response = await fetch(url);
 	const data = await response.json();
-	console.log(data);
 
 	data.forEach((el) => {
 		const fetchedData = {
@@ -81,7 +84,6 @@ async function configureGame() {
 		'sports_and_leisure',
 	];
 	const categories = document.querySelectorAll('#checkBoxes input:checked');
-	const numberOfQuestions = document.getElementById('number-of-questions');
 	const gameDifficulty = document.querySelectorAll('#game-difficulty option:checked');
 
 	//get the user configurations for the game and format them
@@ -115,7 +117,6 @@ async function populateUI() {
 	displayPossibleAnswers(firstQuestion);
 
 	//update the ProgressBar
-	/* questionNumberElement.value = 1; */
 	updateProgressBar();
 }
 
@@ -139,7 +140,6 @@ function displayPossibleAnswers(question) {
 function nextQuestion(questions = quizData) {
 	//get the index of next question
 	const questionNum = questionNumberElement.value;
-	console.log(questionNum);
 
 	if (questionNum === quizData.length) {
 		endGame();
@@ -178,6 +178,8 @@ function checkUsersAnswer(event) {
 
 	//check if selected answer is correct
 	if (correctAnswers.includes(selectedAnswerText)) {
+		//add this answer to correctlyAnswered
+		addData(correctlyAnswered, selectedAnswerText);
 		//display that the choosen answer is correct
 		container.classList.toggle('correct');
 
@@ -193,6 +195,9 @@ function checkUsersAnswer(event) {
 			nextQuestion();
 		}, 3000);
 	} else {
+		//add this answer to incorrectlyAnswered
+		addData(incorrectlyAnswered, selectedAnswerText);
+
 		//display that the choosen answer is incorrect
 		container.classList.toggle('incorrect');
 
@@ -212,6 +217,16 @@ function checkUsersAnswer(event) {
 	}
 }
 
+function quitGame() {
+	quizData = [];
+	correctAnswers = [];
+	incorrectAnswers = [];
+
+	resetProgressBar();
+
+	startModal.classList.remove('done');
+}
+
 //Helper Functions//
 const addData = (arr, el) => {
 	arr.push(el);
@@ -225,6 +240,13 @@ const updateProgressBar = () => {
 	//set the max value on the dom element according to the user inputed limit to the api call
 	questionNumberElement.max = quizData.length;
 	//display the current question number and total questions
+	questionNumberElement.nextElementSibling.textContent = `${questionNumberElement.value}/${quizData.length}`;
+};
+
+const resetProgressBar = () => {
+	questionNumberElement.max = quizData.length;
+	questionNumberElement.value = 1;
+
 	questionNumberElement.nextElementSibling.textContent = `${questionNumberElement.value}/${quizData.length}`;
 };
 
