@@ -112,19 +112,19 @@
 
 					<span class="answer-wrapper">
 						<div class="answer-letter">B</div>
-						<input type="radio" name="answers" id="answer-b"  />
+						<input type="radio" name="answers" id="answer-b" />
 						<p class="answerText" id="1"></p>
 					</span>
 
 					<span class="answer-wrapper">
 						<div class="answer-letter">C</div>
-						<input type="radio" name="answers" id="answer-c"  />
+						<input type="radio" name="answers" id="answer-c" />
 						<p class="answerText" id="2"></p>
 					</span>
 
 					<span class="answer-wrapper">
 						<div class="answer-letter">D</div>
-						<input type="radio" name="answers" id="answer-d"  />
+						<input type="radio" name="answers" id="answer-d" />
 						<p class="answerText" id="3"></p>
 					</span>
 				</div>
@@ -135,8 +135,22 @@
 			</div>
 
 			<div class="game-end-modal" id="game-end-modal">
-				<h3>You have reached the end.</h3>
-				<button id="play-again">PLAY AGAIN</button>
+				<div class="end-game-modal-body">
+					<h3>You have reached the end.</h3>
+					<div>
+						<span class="correctAnswers">
+							You answered
+							<span id="correctAnswersDisplay"></span>
+							questions correctly.
+						</span>
+						<span class="incorrectAnswers">
+							You answered
+							<span id="incorrectAnswersDisplay"></span>
+							questions incorrectly.
+						</span>
+					</div>
+					<button id="play-again">PLAY AGAIN</button>
+				</div>
 			</div>
 
 			<div class="progress-container">

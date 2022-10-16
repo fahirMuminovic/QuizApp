@@ -1,14 +1,14 @@
 //game setup assetsionNumber
-const startBtn = document.getElementById('start');
-const startModal = document.getElementById('game-setup');
-const numberOfQuestions = document.getElementById('number-of-questions');
-const sliderValue = document.getElementById('range-slider-value');
+const startGameButton = document.getElementById('start');
+const gameConfigurationScreen = document.getElementById('game-setup');
+const choosenNumberOfQuestions = document.getElementById('number-of-questions');
+const choosenNumberOfQuestionsSliderValue = document.getElementById('range-slider-value');
 //game assets
 const questionElement = document.getElementById('question');
 const answersTextElement = document.querySelectorAll('p.answerText');
 const answerContainers = document.querySelectorAll('.answer-wrapper');
-const questionNumberElement = document.getElementById('questionNumber');
-const modal = document.getElementById('modal');
+const currentQuestionNum = document.getElementById('questionNumber');
+const questionAnswerPopupMsg = document.getElementById('modal');
 const endGameModal = document.getElementById('game-end-modal');
 const quitButton = document.getElementById('quit-button');
 
@@ -20,18 +20,20 @@ let correctlyAnswered = [];
 let incorrectlyAnswered = [];
 
 //Event Listeners//
-startBtn.addEventListener('click', (e) => {
+startGameButton.addEventListener('click', (e) => {
 	e.preventDefault();
 	startGame();
 });
 
-numberOfQuestions.addEventListener('input', () => {
-	sliderValue.innerText = numberOfQuestions.value;
+choosenNumberOfQuestions.addEventListener('input', () => {
+	//update the display of chosen questions that is positioned below the slider
+	choosenNumberOfQuestionsSliderValue.innerText = choosenNumberOfQuestions.value;
 });
 
 window.onload = () => {
-	numberOfQuestions.value = 10;
-	sliderValue.innerText = numberOfQuestions.value;
+	//set the default value for number of questions to 10
+	choosenNumberOfQuestions.value = 10;
+	choosenNumberOfQuestionsSliderValue.innerText = choosenNumberOfQuestions.value;
 };
 
 answerContainers.forEach((answerContainer) => {
@@ -41,7 +43,7 @@ answerContainers.forEach((answerContainer) => {
 	});
 });
 
-quitButton.addEventListener('click', quitGame);
+quitButton.addEventListener('click', endGame);
 
 //Functions//
 
@@ -88,7 +90,7 @@ async function configureGame() {
 
 	//get the user configurations for the game and format them
 	let choosenCategories = [...categories].map((option) => option.value).join(',');
-	let choosenQuestionNumber = numberOfQuestions.value;
+	let choosenQuestionNumber = choosenNumberOfQuestions.value;
 	let choosengameDifficulty = [...gameDifficulty].map((option) => option.value).join();
 
 	choosenCategories = choosenCategories === '' ? allCategories.join(',') : choosenCategories;
@@ -103,8 +105,8 @@ async function configureGame() {
 async function startGame() {
 	//make sure that the UI is populated
 	await populateUI();
-	//removes the modal used for game configuration on page load
-	startModal.classList.add('done');
+	//removes the used for game configuration on page load
+	gameConfigurationScreen.classList.add('done');
 }
 //pupulates the UI with the question and answers on initial page load
 async function populateUI() {
@@ -139,14 +141,14 @@ function displayPossibleAnswers(question) {
 
 function nextQuestion(questions = quizData) {
 	//get the index of next question
-	const questionNum = questionNumberElement.value;
+	const questionNum = currentQuestionNum.value;
 
 	if (questionNum === quizData.length) {
-		endGame();
+		showEndGameScreen();
 	}
 
 	//increment the dom element in progress bar
-	questionNumberElement.value += 1;
+	currentQuestionNum.value += 1;
 
 	questions.forEach((question, elIndex) => {
 		if (elIndex === questionNum) {
@@ -184,13 +186,13 @@ function checkUsersAnswer(event) {
 		container.classList.toggle('correct');
 
 		//show popup
-		modal.classList.toggle('show');
-		modal.firstElementChild.textContent = `🎉 Congratulations that is correct 🎉`;
+		questionAnswerPopupMsg.classList.toggle('show');
+		questionAnswerPopupMsg.firstElementChild.textContent = `🎉 Congratulations that is correct 🎉`;
 
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
 			container.classList.toggle('correct');
-			modal.classList.toggle('show');
+			questionAnswerPopupMsg.classList.toggle('show');
 			//move to next question
 			nextQuestion();
 		}, 3000);
@@ -202,14 +204,14 @@ function checkUsersAnswer(event) {
 		container.classList.toggle('incorrect');
 
 		//show popup
-		modal.classList.toggle('show');
-		modal.firstElementChild.textContent = `Sorry that is incorrect. The correct answer is:
-		${correctAnswers[questionNumberElement.value - 1]}`;
+		questionAnswerPopupMsg.classList.toggle('show');
+		questionAnswerPopupMsg.firstElementChild.textContent = `Sorry that is incorrect. The correct answer is:
+		${correctAnswers[currentQuestionNum.value - 1]}`;
 
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
 			container.classList.toggle('incorrect');
-			modal.classList.toggle('show');
+			questionAnswerPopupMsg.classList.toggle('show');
 
 			//move to next question
 			nextQuestion();
@@ -217,14 +219,20 @@ function checkUsersAnswer(event) {
 	}
 }
 
-function quitGame() {
+function endGame() {
+	//reset all global variables
 	quizData = [];
 	correctAnswers = [];
 	incorrectAnswers = [];
 
+	correctlyAnswered = [];
+	incorrectlyAnswered = [];
+
+	//reset the progress bar
 	resetProgressBar();
 
-	startModal.classList.remove('done');
+	//display the game configuration menu on screen
+	gameConfigurationScreen.classList.remove('done');
 }
 
 //Helper Functions//
@@ -238,16 +246,16 @@ const randomizeCorrectAnswer = () => {
 
 const updateProgressBar = () => {
 	//set the max value on the dom element according to the user inputed limit to the api call
-	questionNumberElement.max = quizData.length;
+	currentQuestionNum.max = quizData.length;
 	//display the current question number and total questions
-	questionNumberElement.nextElementSibling.textContent = `${questionNumberElement.value}/${quizData.length}`;
+	currentQuestionNum.nextElementSibling.textContent = `${currentQuestionNum.value}/${quizData.length}`;
 };
 
 const resetProgressBar = () => {
-	questionNumberElement.max = quizData.length;
-	questionNumberElement.value = 1;
+	currentQuestionNum.max = quizData.length;
+	currentQuestionNum.value = 1;
 
-	questionNumberElement.nextElementSibling.textContent = `${questionNumberElement.value}/${quizData.length}`;
+	currentQuestionNum.nextElementSibling.textContent = `${currentQuestionNum.value}/${quizData.length}`;
 };
 
 //TODO improve this
@@ -264,9 +272,22 @@ function showCheckboxes() {
 	}
 }
 
-//TODO: implement endgame screen with score, number of correct answers, number of inccorect ansers, play again button
-function endGame() {
+//TODO: implement endgame screen with score, number of correct answers, number of inccorect answers, play again button
+function showEndGameScreen() {
+	const correctAnswersDisplay = document.getElementById('correctAnswersDisplay');
+	const incorrectAnswersDisplay = document.getElementById('incorrectAnswersDisplay');
+	const playAgainButton = document.getElementById('play-again');
+
+	correctAnswersDisplay.innerText = correctlyAnswered.length;
+	incorrectAnswersDisplay.innerText = incorrectlyAnswered.length;
+
 	endGameModal.classList.add('show');
+
+	playAgainButton.addEventListener('click', ()=>{
+		endGame();
+		endGameModal.classList.remove('show');
+	});
+
 }
 
 //TODO implement the QUIT button during game play
