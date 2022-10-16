@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-* {
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 }
 
@@ -33,6 +35,9 @@ span {
 	width: 100vw;
 
 	z-index: 15;
+
+	font-size: 20px;
+	font-family: 'Zilla Slab';
 }
 
 .game-setup button {
@@ -49,27 +54,131 @@ span {
 	flex-direction: column;
 	justify-content: center;
 
-	gap: 50px;
+	gap: 25px;
 
 	border: 1.99405px solid #000;
 }
 
-#number-of-questions {
-	margin-top: -30px;
+input[type='range']#number-of-questions {
+	margin-top: -16px;
 }
 
-#range-slider-value {
-	margin: -50px 5px 10px 5px;
+label#range-slider-value {
+	margin: -26px 5px 0px 5px;
+}
+
+input[type='range'] {
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent;
+	cursor: pointer;
+	width: 100%;
+}
+
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+input[type='range']::-webkit-slider-runnable-track {
+	background: #007aff;
+	height: 4.65px;
+
+	border-radius: 8px;
+}
+
+/******** Firefox ********/
+input[type='range']::-moz-range-track {
+	background: #007aff;
+	height: 4.65px;
+
+	border-radius: 8px;
+}
+
+/***** Thumb Styles *****/
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+input[type='range']::-webkit-slider-thumb {
+	-webkit-appearance: none; /* Override default look */
+	appearance: none;
+
+	border: 1.9px solid rgba(68, 68, 68, 0.2);
+	border-radius: 50%;
+	background-color: #ededf0;
+	height: 15px;
+	width: 15px;
+
+	margin-top: -5.175px; /* Centers thumb on the track */
+
+	cursor: pointer;
+}
+/***** Firefox *****/
+input[type='range']::-moz-range-thumb {
+	border: 1.9px solid rgba(68, 68, 68, 0.2);
+	border-radius: 50%;
+	background-color: #ededf0;
+	height: 15px;
+	width: 15px;
 }
 
 .categories-wrapper {
 	display: flex;
 	flex-direction: column;
+	align-items: flex-start;
+	justify-content: baseline;
+
+	margin-top: -25px;
 }
 
-.game-difficulty-wrapper {
+.categories-wrapper p {
+	margin-bottom: 10px;
+}
+
+input[type='checkbox'] {
+	vertical-align: middle;
+
+	position: relative;
+	bottom: 1px;
+
+	margin: 0;
+
+	cursor: pointer;
+}
+
+.categories-wrapper > label {
+	font-size: 20px;
+
+	cursor: pointer;
+}
+
+label.select-label {
+	margin-bottom: -15px;
+}
+
+div.select-wrapper {
 	display: flex;
 	flex-direction: column;
+
+	border: 1px solid #4b4b4b;
+	border-radius: 0.25em;
+	padding: 0.25em 0.5em;
+
+	background-color: #ededf0;
+}
+
+select#game-difficulty {
+	background-color: transparent;
+	border: none;
+
+	padding: 0 1em 0 0;
+	margin: 0;
+
+	width: 100%;
+
+	font-family: 'Zilla Slab', sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+
+	cursor: pointer;
+}
+
+option {
+	font-family: 'Zilla Slab', sans-serif;
 }
 
 .game-elements {
@@ -357,41 +466,6 @@ button:hover {
 	color: #000;
 }
 
-.multipleSelection {
-	width: 300px;
-	background-color: rgba(199, 193, 193, 0.9);
-}
-
-.selectBox {
-	position: relative;
-}
-
-.selectBox select {
-	width: 100%;
-	font-weight: 500;
-}
-
-.overSelect {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-}
-
-#checkBoxes {
-	display: none;
-	border: 1px #f4f3f6 solid;
-}
-
-#checkBoxes label {
-	display: block;
-}
-
-#checkBoxes label:hover {
-	background-color: rgba(229, 229, 229, 0.5);
-}
-
 .end-game-modal-body {
 	height: 96vh;
 	width: 80vw;
@@ -421,9 +495,9 @@ div.score-container {
 	width: 90%;
 	max-width: 500px;
 
-	background-color: #F4F3F6;
+	background-color: #f4f3f6;
 
-	border: 1.99405px solid rgba(0, 0, 0, 0.30);
+	border: 1.99405px solid rgba(0, 0, 0, 0.3);
 	border-radius: 8px;
 
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
