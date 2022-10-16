@@ -1,9 +1,7 @@
 //game setup assets
 const startBtn = document.getElementById('start');
 const startModal = document.getElementById('game-setup');
-const categories = document.querySelectorAll('#checkBoxes input:checked');
 const numberOfQuestions = document.getElementById('number-of-questions');
-const gameDifficulty = document.querySelectorAll('#game-difficulty option:checked');
 const sliderValue = document.getElementById('range-slider-value');
 //game assets
 const questionElement = document.getElementById('question');
@@ -20,7 +18,6 @@ const incorrectAnswers = [];
 //Event Listeners//
 startBtn.addEventListener('click', (e) => {
 	e.preventDefault();
-
 	//hide game config modal
 	startGame();
 });
@@ -47,13 +44,14 @@ answerContainers.forEach((answerContainer) => {
 async function fetchQuestions() {
 	const gameConfig = await configureGame();
 	const categories = gameConfig.categories;
-	const limit = gameConfig.limit;
+	const limit = Number(gameConfig.limit);
 	const difficulty = gameConfig.difficulty;
-
+	console.log(gameConfig);
 	//https://the-trivia-api.com/api/questions?categories=arts_and_literature,film_and_tv,food_and_drink,general_knowledge&limit=5&difficulty=hard
 	const url = `https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}&difficulty=${difficulty}`;
 	const response = await fetch(url);
 	const data = await response.json();
+	console.log(data);
 
 	data.forEach((el) => {
 		const fetchedData = {
@@ -70,10 +68,28 @@ async function fetchQuestions() {
 }
 
 async function configureGame() {
+	const allCategories = [
+		'arts_and_literature',
+		'film_and_tv',
+		'food_and_drink',
+		'general_knowledge',
+		'geography',
+		'history',
+		'music',
+		'science',
+		'society_and_culture',
+		'sports_and_leisure',
+	];
+	const categories = document.querySelectorAll('#checkBoxes input:checked');
+	const numberOfQuestions = document.getElementById('number-of-questions');
+	const gameDifficulty = document.querySelectorAll('#game-difficulty option:checked');
+
 	//get the user configurations for the game and format them
 	let choosenCategories = [...categories].map((option) => option.value).join(',');
 	let choosenQuestionNumber = numberOfQuestions.value;
 	let choosengameDifficulty = [...gameDifficulty].map((option) => option.value).join();
+
+	choosenCategories = choosenCategories === '' ? allCategories.join(',') : choosenCategories;
 
 	return {
 		categories: choosenCategories,
