@@ -1,3 +1,15 @@
+/**
+ * TODO
+ * 
+ * 1. display question category during game-play
+ * 2. change the way correct and incorrect answers are displayed
+ * 3. implement time tracking for overall quiz time
+ * 4. implement a time limit for answering questions (possibly display as a loading bar)
+ * 5. display current score during gameplay (possibly add animation on change)
+ * 6. make a loading icon for change between game configuration screen and game-play
+ */
+
+
 //game setup assetsionNumber
 const startGameButton = document.getElementById('start');
 const gameConfigurationScreen = document.getElementById('game-setup');
@@ -132,14 +144,14 @@ async function configureGame() {
 		'society_and_culture',
 		'sports_and_leisure',
 	];
-	const categories = document.querySelectorAll('#checkBoxes input:checked');
+	const categories = document.querySelectorAll('.categories-wrapper input:checked');
 	const gameDifficulty = document.querySelectorAll('#gameDifficultyOptions input:checked');
 
 	//get the user configurations for the game and format them
 	let choosenCategories = [...categories].map((option) => option.value).join(',');
 	let choosenQuestionNumber = choosenNumberOfQuestions.value;
 	let choosengameDifficulty = [...gameDifficulty].map((option) => option.value);
-
+	console.log(choosenCategories);
 	//if no particular category is choosen then use all categories
 	choosenCategories = choosenCategories === '' ? allCategories.join(',') : choosenCategories;
 	//if you make a request to the API with difficulty left out, you get questions of all difficulties
