@@ -437,55 +437,42 @@ div.select-wrapper {
 	-moz-appearance: none;
 	appearance: none;
 
+	/* for firefox progress element background style */
+	border: none;
 	background-color: rgba(117, 117, 117, 0.2);
 	border: 1px solid rgba(117, 117, 117, 0.2);
 	border-radius: 15px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
-
 	/* Dimensions */
 	width: 100px;
 	height: 15px;
 }
 
-.progress-container progress[value]::-moz-progress-bar {
-	background-color: #31cd63;
+.progress-container progress[value]::-webkit-progress-bar {
+	background-color: rgba(117, 117, 117, 0.2);
+
+	border: 1px solid rgba(117, 117, 117, 0.2);
 	border-radius: 15px;
-}
-
-/* modal */
-.modal {
-	visibility: hidden;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	width: 375px;
-	height: 75px;
-
-	background-color: #e5e5e5;
-
-	border-radius: 8px;
 
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
-	border: 2px solid #4b4b4b;
-
-	position: absolute;
-	top: 85%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-
-	z-index: 10;
 }
 
-.modal p {
-	padding: 10px;
-	font-style: oblique;
-	text-align: center;
+.progress-container progress[value]::-webkit-progress-value {
+	background-color: #31cd63;
+
+	border: 1px solid rgba(117, 117, 117, 0.2);
+	border-radius: 15px;
+
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
 }
 
-.modal.show {
-	visibility: visible;
+.progress-container progress[value]::-moz-progress-bar {
+	background-color: #31cd63;
+
+	border: 1px solid rgba(117, 117, 117, 0.2);
+	border-radius: 15px;
+
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
 }
 
 .game-end-modal {
@@ -509,14 +496,12 @@ div.select-wrapper {
 	font-family: 'Zilla Slab', serif;
 	font-size: 36px;
 
-	/* top: -50%; */
 	transition: all 0.5s ease-in-out;
 }
 .game-end-modal.show {
 	visibility: visible;
 	z-index: 20;
 	opacity: 1;
-	/* top: 50%; */
 }
 
 button {
@@ -629,7 +614,5 @@ button#play-again {
 }
 
 button#play-again:hover {
-	background-color: #1db954;
-
-	border-color: hsl(141, 74%, 35%);
+	background-color: rgba(29, 185, 84, 0.8);
 }
