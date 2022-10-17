@@ -69,8 +69,6 @@ async function prepareUrls() {
 		let limit1 = Math.floor(Math.random() * limit);
 		let limit2 = limit - limit1;
 
-		console.log(difficulty1, difficulty2);
-		console.log(limit1, limit2);
 		//make url for limit1 dificulty1 and push to urls array
 		urls.push(
 			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit1}&difficulty=${difficulty1}`
@@ -79,45 +77,6 @@ async function prepareUrls() {
 		urls.push(
 			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit2}&difficulty=${difficulty2}`
 		);
-		/*
-		const response1 = await fetch(url);
-		const data1 = await response1.json();
-
-		console.log(data1);
-
-		data1.forEach((el) => {
-			const fetchedData = {
-				questionText: `${el.question}`,
-				questionDifficulty: `${el.difficulty}`,
-				correctAnswerText: `${el.correctAnswer.trim()}`,
-				incorrectAnswersText: [...el.incorrectAnswers],
-			};
-			//add this element to global arrays
-			addData(quizData, fetchedData);
-			addData(correctAnswers, el.correctAnswer);
-			addData(incorrectAnswers, el.incorrectAnswers);
-		});
-
-		//make api request for limit2 dificulty2
-		url = `https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit2}&difficulty=${difficulty2}`;
-		const response2 = await fetch(url);
-		const data2 = await response2.json();
-
-		console.log(data2);
-
-		data2.forEach((el) => {
-			const fetchedData = {
-				questionText: `${el.question}`,
-				questionDifficulty: `${el.difficulty}`,
-				correctAnswerText: `${el.correctAnswer.trim()}`,
-				incorrectAnswersText: [...el.incorrectAnswers],
-			};
-			//add this element to global arrays
-			addData(quizData, fetchedData);
-			addData(correctAnswers, el.correctAnswer);
-			addData(incorrectAnswers, el.incorrectAnswers);
-		});
-		return shuffleArray(quizData); */
 	}
 	//for no dificulty selected leave it out from url, so we get questions of all dificulties
 	else if (difficulty.length === 0) {
@@ -156,8 +115,8 @@ async function fetchQuestions() {
 			addData(incorrectAnswers, el.incorrectAnswers);
 		});
 	}
-	/* quizData = await shuffleArray(quizData); */
-	console.log('test', quizData[0]);
+
+	//TODO test to see of shuffleArray needs to be async
 	return await shuffleArray(quizData);
 }
 
