@@ -73,7 +73,6 @@
 					</label>
 				</div>
 
-
 				<label for="game-difficulty" class="select-label">
 					Choose desired difficulty of questions
 				</label>
@@ -88,15 +87,15 @@
 						</div>
 						<div id="gameDifficultyOptions">
 							<label for="easy">
-								<input type="checkbox" id="easy" value="easy"/>
+								<input type="checkbox" id="easy" value="easy" />
 								Easy
 							</label>
 							<label for="medium">
-								<input type="checkbox" id="medium" value="medium"/>
+								<input type="checkbox" id="medium" value="medium" />
 								Medium
 							</label>
 							<label for="hard">
-								<input type="checkbox" id="hard" value="hard"/>
+								<input type="checkbox" id="hard" value="hard" />
 								Hard
 							</label>
 						</div>
@@ -112,6 +111,9 @@
 			<div class="main-container">
 				<div class="question-container">
 					<p class="question" id="question"></p>
+					<span class="categoryDisplay" id="categoryDisplay">
+						<!-- <p class="questionCategory" id="questionCategory">Food & Drink</p> -->
+					</span>
 				</div>
 				<div class="answers-container" style="display: flex; flex-direction: column">
 					<span class="answer-wrapper">

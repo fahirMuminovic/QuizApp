@@ -1,6 +1,6 @@
 /**
  * TODO
- * 
+ *
  * 1. display question category during game-play
  * 2. change the way correct and incorrect answers are displayed
  * 3. implement time tracking for overall quiz time
@@ -8,7 +8,6 @@
  * 5. display current score during gameplay (possibly add animation on change)
  * 6. make a loading icon for change between game configuration screen and game-play
  */
-
 
 //game setup assetsionNumber
 const startGameButton = document.getElementById('start');
@@ -117,17 +116,17 @@ async function fetchQuestions() {
 			const fetchedData = {
 				questionText: `${el.question}`,
 				questionDifficulty: `${el.difficulty}`,
+				questionCategory: `${el.category}`,
 				correctAnswerText: `${el.correctAnswer.trim()}`,
 				incorrectAnswersText: [...el.incorrectAnswers],
 			};
 			//add this element to global arrays
 			addData(quizData, fetchedData);
 			addData(correctAnswers, el.correctAnswer);
-			/* addData(incorrectAnswers, el.incorrectAnswers); */
 		});
 	}
-
 	//TODO test to see of shuffleArray needs to be async
+	//shuffle the final array
 	return await shuffleArray(quizData);
 }
 
@@ -177,6 +176,8 @@ async function populateUI() {
 
 	//display the first question that is fetched on the web page
 	questionElement.textContent = firstQuestion.questionText;
+	//display the question category
+	displayQuestionCategory(firstQuestion.questionCategory);
 	//display the possible answers
 	displayPossibleAnswers(firstQuestion);
 
@@ -213,11 +214,18 @@ function nextQuestion(questions = quizData) {
 		if (elIndex === questionNum) {
 			//display the question on the page
 			questionElement.textContent = question.questionText;
+			//display question category
+			displayQuestionCategory(question.questionCategory);
 			//display the possible answers
 			displayPossibleAnswers(question);
 		}
 	});
 	updateProgressBar();
+}
+
+function displayQuestionCategory(questionCategory) {
+	const categoryContainerEl = document.getElementById('categoryDisplay');
+	categoryContainerEl.textContent = questionCategory;
 }
 
 function addScore() {
