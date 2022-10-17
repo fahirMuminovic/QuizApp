@@ -1,6 +1,5 @@
 /**
  * TODO
- * 2. change the way correct and incorrect answers are displayed
  * 3. implement time tracking for overall quiz time
  * 4. implement a time limit for answering questions (possibly display as a loading bar)
  * 5. display current score during gameplay (possibly add animation on change)
@@ -20,6 +19,7 @@ const answerContainers = document.querySelectorAll('.answer-wrapper');
 const currentQuestionNum = document.getElementById('questionNumber');
 const endGameModal = document.getElementById('game-end-modal');
 const quitButton = document.getElementById('quit-button');
+const overallTime = document.getElementById('overallTime');
 
 let quizData = [];
 let correctAnswers = [];
@@ -27,11 +27,14 @@ let correctAnswers = [];
 let correctlyAnswered = [];
 let incorrectlyAnswered = [];
 let userScore = 0;
-
+//holds the timer id
+let overallTimer = 0;
 //Event Listeners//
 startGameButton.addEventListener('click', (e) => {
 	e.preventDefault();
 	startGame();
+	//start timer that tracks total time taken to finish the quiz
+	overallTimer = setInterval(updateOverallTimer, 1000);
 });
 
 choosenNumberOfQuestions.addEventListener('input', () => {
@@ -60,7 +63,7 @@ selectGameDifficultyDropDown.addEventListener('click', () => {
 
 //Functions//
 
-//fetches data from https://the-trivia-api.com
+//makes url for fetch API depending on user game configuration
 async function prepareUrls() {
 	const gameConfig = await configureGame();
 	const categories = gameConfig.categories;
@@ -100,6 +103,7 @@ async function prepareUrls() {
 	return urls;
 }
 
+//fetches data from https://the-trivia-api.com
 async function fetchQuestions() {
 	const URLs = await prepareUrls();
 
@@ -114,7 +118,7 @@ async function fetchQuestions() {
 				questionText: `${el.question}`,
 				questionDifficulty: `${el.difficulty}`,
 				questionCategory: `${el.category}`,
-				correctAnswerText: `${el.correctAnswer.trim()}`,
+				correctAnswerText: `${el.correctAnswer}`,
 				incorrectAnswersText: [...el.incorrectAnswers],
 			};
 			//add this element to global arrays
@@ -147,7 +151,7 @@ async function configureGame() {
 	let choosenCategories = [...categories].map((option) => option.value).join(',');
 	let choosenQuestionNumber = choosenNumberOfQuestions.value;
 	let choosengameDifficulty = [...gameDifficulty].map((option) => option.value);
-	console.log(choosenCategories);
+
 	//if no particular category is choosen then use all categories
 	choosenCategories = choosenCategories === '' ? allCategories.join(',') : choosenCategories;
 	//if you make a request to the API with difficulty left out, you get questions of all difficulties
@@ -227,8 +231,7 @@ function displayQuestionCategory(questionCategory) {
 
 function addScore() {
 	let questionDifficulty = quizData[currentQuestionNum.value - 1].questionDifficulty;
-	console.log(quizData[currentQuestionNum.value - 1]);
-	console.log(questionDifficulty);
+
 	if (questionDifficulty === 'easy') {
 		userScore += 100;
 	}
@@ -247,13 +250,13 @@ function checkUsersAnswer(event) {
 	//depending on which part of the answer container is clicked get the clicked answer text
 	if (answerContainer.classList.contains('answerText')) {
 		container = answerContainer.parentElement;
-		selectedAnswerText = answerContainer.innerText.trim();
+		selectedAnswerText = answerContainer.innerText;
 	} else if (answerContainer.classList.contains('answer-letter')) {
 		container = answerContainer.parentElement;
-		selectedAnswerText = container.lastElementChild.innerText.trim();
+		selectedAnswerText = container.lastElementChild.innerText;
 	} else if (answerContainer.classList.contains('answer-wrapper')) {
 		container = answerContainer;
-		selectedAnswerText = answerContainer.lastElementChild.textContent.trim();
+		selectedAnswerText = answerContainer.lastElementChild.textContent;
 	}
 
 	//check if selected answer is correct
@@ -261,14 +264,14 @@ function checkUsersAnswer(event) {
 		//add this answer to correctlyAnswered
 		addData(correctlyAnswered, selectedAnswerText);
 		//display that the choosen answer is correct
-		container.classList.toggle('correct');
+		container.classList.add('correct');
 
 		//update user score
 		addScore();
 
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
-			container.classList.toggle('correct');
+			container.classList.remove('correct');
 			//move to next question
 			nextQuestion();
 		}, 3000);
@@ -279,9 +282,9 @@ function checkUsersAnswer(event) {
 		//display that the choosen answer is incorrect, also display the correct answer
 		answerContainers.forEach((answerContainer) => {
 			if (correctAnswers.includes(answerContainer.children[2].innerText)) {
-				answerContainer.classList.toggle('correct');
+				answerContainer.classList.add('correct');
 			} else {
-				answerContainer.classList.toggle('incorrect');
+				answerContainer.classList.add('incorrect');
 			}
 		});
 
@@ -290,9 +293,9 @@ function checkUsersAnswer(event) {
 			//reset correct and incorrect classes on answer container elements
 			answerContainers.forEach((answerContainer) => {
 				if (answerContainer.classList.contains('correct')) {
-					answerContainer.classList.toggle('correct');
+					answerContainer.classList.remove('correct');
 				} else {
-					answerContainer.classList.toggle('incorrect');
+					answerContainer.classList.remove('incorrect');
 				}
 			});
 			//move to next question
@@ -310,15 +313,24 @@ function endGame() {
 	incorrectlyAnswered = [];
 
 	userScore = 0;
+	overallTimer = 0;
 
 	//reset the progress bar
 	resetProgressBar();
+
+	//reset the overall time
+	overallTime.textContent = '';
 
 	//display the game configuration menu on screen
 	gameConfigurationScreen.classList.remove('done');
 }
 
 function showEndGameScreen() {
+	//stop timer
+	clearInterval(overallTimer);
+	//format the time that is displayed
+	formatTime(overallTime);
+
 	const correctAnswersDisplay = document.getElementById('correctAnswersDisplay');
 	const incorrectAnswersDisplay = document.getElementById('incorrectAnswersDisplay');
 	const playAgainButton = document.getElementById('play-again');
@@ -377,4 +389,28 @@ const resetProgressBar = () => {
 	currentQuestionNum.nextElementSibling.textContent = `${currentQuestionNum.value + 1}/${
 		quizData.length
 	}`;
+};
+
+const updateOverallTimer = () => {
+	overallTime.textContent = Number(overallTime.textContent) + 1;
+};
+
+const formatTime = (timeDOMElement) => {
+	const time = Number(timeDOMElement.textContent);
+
+	let hours = Math.floor(time / 3600).toString();
+	let minutes = Math.floor((time % 3600) / 60)
+		.toString()
+		.padStart(2, '0');
+	let seconds = Math.floor(time % 60)
+		.toString()
+		.padStart(2, '0');
+
+	if (time <= 59) {
+		timeDOMElement.textContent = `${time} seconds`;
+	} else if (time >= 60 && time < 3600) {
+		timeDOMElement.textContent = `${minutes}:${seconds}`;
+	} else if (time >= 3600) {
+		timeDOMElement.textContent = `${hours}:${minutes}:${seconds}`;
+	}
 };
