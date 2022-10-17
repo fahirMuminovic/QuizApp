@@ -1,7 +1,5 @@
 /**
  * TODO
- *
- * 1. display question category during game-play
  * 2. change the way correct and incorrect answers are displayed
  * 3. implement time tracking for overall quiz time
  * 4. implement a time limit for answering questions (possibly display as a loading bar)
@@ -20,7 +18,6 @@ const questionElement = document.getElementById('question');
 const answersTextElement = document.querySelectorAll('p.answerText');
 const answerContainers = document.querySelectorAll('.answer-wrapper');
 const currentQuestionNum = document.getElementById('questionNumber');
-const questionAnswerPopupMsg = document.getElementById('modal');
 const endGameModal = document.getElementById('game-end-modal');
 const quitButton = document.getElementById('quit-button');
 
@@ -229,8 +226,9 @@ function displayQuestionCategory(questionCategory) {
 }
 
 function addScore() {
-	let questionDifficulty = quizData[currentQuestionNum.value].questionDifficulty;
-
+	let questionDifficulty = quizData[currentQuestionNum.value - 1].questionDifficulty;
+	console.log(quizData[currentQuestionNum.value - 1]);
+	console.log(questionDifficulty);
 	if (questionDifficulty === 'easy') {
 		userScore += 100;
 	}
@@ -268,14 +266,9 @@ function checkUsersAnswer(event) {
 		//update user score
 		addScore();
 
-		//show popup
-		questionAnswerPopupMsg.classList.toggle('show');
-		questionAnswerPopupMsg.firstElementChild.textContent = `🎉 Congratulations that is correct 🎉`;
-
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
 			container.classList.toggle('correct');
-			questionAnswerPopupMsg.classList.toggle('show');
 			//move to next question
 			nextQuestion();
 		}, 3000);
@@ -283,19 +276,25 @@ function checkUsersAnswer(event) {
 		//add this answer to incorrectlyAnswered
 		addData(incorrectlyAnswered, selectedAnswerText);
 
-		//display that the choosen answer is incorrect
-		container.classList.toggle('incorrect');
-
-		//show popup
-		questionAnswerPopupMsg.classList.toggle('show');
-		questionAnswerPopupMsg.firstElementChild.textContent = `Sorry that is incorrect. The correct answer is:
-		${quizData[currentQuestionNum.value - 1].correctAnswerText}`;
+		//display that the choosen answer is incorrect, also display the correct answer
+		answerContainers.forEach((answerContainer) => {
+			if (correctAnswers.includes(answerContainer.children[2].innerText)) {
+				answerContainer.classList.toggle('correct');
+			} else {
+				answerContainer.classList.toggle('incorrect');
+			}
+		});
 
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
-			container.classList.toggle('incorrect');
-			questionAnswerPopupMsg.classList.toggle('show');
-
+			//reset correct and incorrect classes on answer container elements
+			answerContainers.forEach((answerContainer) => {
+				if (answerContainer.classList.contains('correct')) {
+					answerContainer.classList.toggle('correct');
+				} else {
+					answerContainer.classList.toggle('incorrect');
+				}
+			});
 			//move to next question
 			nextQuestion();
 		}, 3000);
@@ -309,6 +308,8 @@ function endGame() {
 
 	correctlyAnswered = [];
 	incorrectlyAnswered = [];
+
+	userScore = 0;
 
 	//reset the progress bar
 	resetProgressBar();
