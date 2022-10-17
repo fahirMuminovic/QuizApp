@@ -7,6 +7,11 @@
 	box-sizing: border-box;
 }
 
+::selection {
+	color: #fff;
+	background: #000;
+}
+
 body {
 	margin: 0;
 
@@ -16,6 +21,16 @@ body {
 	background-color: #e5e5e5;
 }
 
+h1 {
+	font-family: 'Zilla Slab', serif;
+
+	font-style: normal;
+	font-weight: 600;
+	font-size: 3em;
+
+	color: #000000;
+}
+
 span {
 	cursor: default;
 }
@@ -23,7 +38,6 @@ span {
 .game-setup {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 
 	position: absolute;
@@ -85,11 +99,13 @@ input[type='range']::-webkit-slider-runnable-track {
 
 /******** Firefox ********/
 input[type='range']::-moz-range-track {
-	background: #007aff;
+	/* background: #007aff; */
+	background: #000;
 	height: 4.65px;
 
 	border-radius: 8px;
 }
+
 
 /***** Thumb Styles *****/
 /***** Chrome, Safari, Opera, and Edge Chromium *****/
@@ -138,6 +154,8 @@ input[type='checkbox'] {
 	margin: 0;
 
 	cursor: pointer;
+
+	accent-color: #000;
 }
 
 .categories-wrapper > label {
@@ -153,32 +171,71 @@ label.select-label {
 div.select-wrapper {
 	display: flex;
 	flex-direction: column;
-
-	border: 1px solid #4b4b4b;
-	border-radius: 0.25em;
-	padding: 0.25em 0.5em;
-
-	background-color: #ededf0;
 }
 
-select#game-difficulty {
-	background-color: transparent;
-	border: none;
-
-	padding: 0 1em 0 0;
-	margin: 0;
-
+.multiselect {
 	width: 100%;
 
+	position: relative;
+}
+
+.selectBox {
+	position: relative;
+}
+
+.selectBox select {
+	width: 100%;
+
+	font-weight: 500;
 	font-family: 'Zilla Slab', sans-serif;
 	font-size: 18px;
-	font-weight: 400;
+
+	padding: 3px 2px;
+
+	border: 1px solid #4b4b4b;
+	border-top-left-radius: 0.25em;
+	border-top-right-radius: 0.25em;
+}
+
+.overSelect {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
 
 	cursor: pointer;
 }
 
-option {
-	font-family: 'Zilla Slab', sans-serif;
+#gameDifficultyOptions {
+	position: absolute;
+	display: none;
+
+	width: 100%;
+
+	border: 1px solid #4b4b4b;
+	border-top: none;
+	border-bottom-left-radius: 0.25em;
+	border-bottom-right-radius: 0.25em;
+
+	padding: 2px;
+
+	background-color: #ededf0;
+
+	cursor: pointer;
+}
+
+#gameDifficultyOptions.show {
+	display: block;
+}
+
+#gameDifficultyOptions label {
+	display: block;
+	cursor: pointer;
+}
+
+#gameDifficultyOptions label:hover {
+	background-color: rgba(119, 119, 119, 0.2);
 }
 
 .game-elements {
@@ -190,26 +247,6 @@ option {
 	height: 100vh;
 
 	position: relative;
-}
-
-h1 {
-	font-family: 'Zilla Slab', serif;
-
-	font-style: normal;
-	font-weight: 600;
-	font-size: 3em;
-
-	color: #000000;
-}
-
-::selection {
-	color: #fff;
-	background: #000;
-}
-
-h1.setup {
-	position: absolute;
-	top: 2%;
 }
 
 .main-container {

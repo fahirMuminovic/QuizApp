@@ -3,6 +3,7 @@ const startGameButton = document.getElementById('start');
 const gameConfigurationScreen = document.getElementById('game-setup');
 const choosenNumberOfQuestions = document.getElementById('number-of-questions');
 const choosenNumberOfQuestionsSliderValue = document.getElementById('range-slider-value');
+const selectGameDifficultyDropDown = document.getElementById('multiselect');
 //game assets
 const questionElement = document.getElementById('question');
 const answersTextElement = document.querySelectorAll('p.answerText');
@@ -18,6 +19,7 @@ let incorrectAnswers = [];
 
 let correctlyAnswered = [];
 let incorrectlyAnswered = [];
+let userScore = 0;
 
 //Event Listeners//
 startGameButton.addEventListener('click', (e) => {
@@ -45,31 +47,118 @@ answerContainers.forEach((answerContainer) => {
 
 quitButton.addEventListener('click', endGame);
 
+selectGameDifficultyDropDown.addEventListener('click', () => {
+	selectGameDifficultyDropDown.lastElementChild.classList.toggle('show');
+});
+
 //Functions//
 
 //fetches data from https://the-trivia-api.com
-async function fetchQuestions() {
+async function prepareUrls() {
 	const gameConfig = await configureGame();
 	const categories = gameConfig.categories;
 	const limit = Number(gameConfig.limit);
 	const difficulty = gameConfig.difficulty;
+	const urls = [];
 
-	const url = `https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}&difficulty=${difficulty}`;
-	const response = await fetch(url);
-	const data = await response.json();
+	//if user selected 2 difficulties, fetch API need to be called 2 times
+	if (difficulty.length === 2) {
+		//get dificulties
+		let [difficulty1, difficulty2] = [...difficulty];
+		//split limit 2 random ways
+		let limit1 = Math.floor(Math.random() * limit);
+		let limit2 = limit - limit1;
 
-	data.forEach((el) => {
-		const fetchedData = {
-			questionText: `${el.question}`,
-			correctAnswerText: `${el.correctAnswer.trim()}`,
-			incorrectAnswersText: [...el.incorrectAnswers],
-		};
-		//add this element to global arrays
-		addData(quizData, fetchedData);
-		addData(correctAnswers, el.correctAnswer);
-		addData(incorrectAnswers, el.incorrectAnswers);
-	});
-	return quizData;
+		console.log(difficulty1, difficulty2);
+		console.log(limit1, limit2);
+		//make url for limit1 dificulty1 and push to urls array
+		urls.push(
+			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit1}&difficulty=${difficulty1}`
+		);
+		//make url for limit2 dificulty2 and push to urls array
+		urls.push(
+			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit2}&difficulty=${difficulty2}`
+		);
+		/*
+		const response1 = await fetch(url);
+		const data1 = await response1.json();
+
+		console.log(data1);
+
+		data1.forEach((el) => {
+			const fetchedData = {
+				questionText: `${el.question}`,
+				questionDifficulty: `${el.difficulty}`,
+				correctAnswerText: `${el.correctAnswer.trim()}`,
+				incorrectAnswersText: [...el.incorrectAnswers],
+			};
+			//add this element to global arrays
+			addData(quizData, fetchedData);
+			addData(correctAnswers, el.correctAnswer);
+			addData(incorrectAnswers, el.incorrectAnswers);
+		});
+
+		//make api request for limit2 dificulty2
+		url = `https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit2}&difficulty=${difficulty2}`;
+		const response2 = await fetch(url);
+		const data2 = await response2.json();
+
+		console.log(data2);
+
+		data2.forEach((el) => {
+			const fetchedData = {
+				questionText: `${el.question}`,
+				questionDifficulty: `${el.difficulty}`,
+				correctAnswerText: `${el.correctAnswer.trim()}`,
+				incorrectAnswersText: [...el.incorrectAnswers],
+			};
+			//add this element to global arrays
+			addData(quizData, fetchedData);
+			addData(correctAnswers, el.correctAnswer);
+			addData(incorrectAnswers, el.incorrectAnswers);
+		});
+		return shuffleArray(quizData); */
+	}
+	//for no dificulty selected leave it out from url, so we get questions of all dificulties
+	else if (difficulty.length === 0) {
+		urls.push(`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}`);
+
+		//if only one difficulty is selected cast it to string and use in API call
+	} else if (difficulty.length === 1) {
+		urls.push(
+			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}&difficulty=${String(
+				difficulty
+			)}`
+		);
+	}
+	return urls;
+}
+
+async function fetchQuestions() {
+	const URLs = await prepareUrls();
+
+	for (let i = 0; i < URLs.length; i++) {
+		const url = URLs[i];
+
+		const response = await fetch(url);
+		const data = await response.json();
+
+		data.forEach((el) => {
+			const fetchedData = {
+				questionText: `${el.question}`,
+				questionDifficulty: `${el.difficulty}`,
+				correctAnswerText: `${el.correctAnswer.trim()}`,
+				incorrectAnswersText: [...el.incorrectAnswers],
+			};
+			//add this element to global arrays
+			addData(quizData, fetchedData);
+			addData(correctAnswers, el.correctAnswer);
+			addData(incorrectAnswers, el.incorrectAnswers);
+		});
+	}
+	/* quizData = await shuffleArray(quizData); */
+	console.log('test', quizData[0]);
+	return await shuffleArray(quizData);
 }
 
 async function configureGame() {
@@ -86,14 +175,17 @@ async function configureGame() {
 		'sports_and_leisure',
 	];
 	const categories = document.querySelectorAll('#checkBoxes input:checked');
-	const gameDifficulty = document.querySelectorAll('#game-difficulty option:checked');
+	const gameDifficulty = document.querySelectorAll('#gameDifficultyOptions input:checked');
 
 	//get the user configurations for the game and format them
 	let choosenCategories = [...categories].map((option) => option.value).join(',');
 	let choosenQuestionNumber = choosenNumberOfQuestions.value;
-	let choosengameDifficulty = [...gameDifficulty].map((option) => option.value).join();
+	let choosengameDifficulty = [...gameDifficulty].map((option) => option.value);
 
+	//if no particular category is choosen then use all categories
 	choosenCategories = choosenCategories === '' ? allCategories.join(',') : choosenCategories;
+	//if you make a request to the API with difficulty left out, you get questions of all difficulties
+	choosengameDifficulty = choosengameDifficulty.length === 3 ? [] : choosengameDifficulty;
 
 	return {
 		categories: choosenCategories,
@@ -161,6 +253,19 @@ function nextQuestion(questions = quizData) {
 	updateProgressBar();
 }
 
+function addScore() {
+	let questionDifficulty = quizData[currentQuestionNum.value - 1].questionDifficulty;
+
+	if (questionDifficulty === 'easy') {
+		userScore += 100;
+	}
+	if (questionDifficulty === 'medium') {
+		userScore += 250;
+	} else if (questionDifficulty === 'hard') {
+		userScore += 500;
+	}
+}
+
 function checkUsersAnswer(event) {
 	let answerContainer = event.target;
 	let selectedAnswerText = '';
@@ -184,6 +289,9 @@ function checkUsersAnswer(event) {
 		addData(correctlyAnswered, selectedAnswerText);
 		//display that the choosen answer is correct
 		container.classList.toggle('correct');
+
+		//update user score
+		addScore();
 
 		//show popup
 		questionAnswerPopupMsg.classList.toggle('show');
@@ -235,10 +343,44 @@ function endGame() {
 	gameConfigurationScreen.classList.remove('done');
 }
 
+function showEndGameScreen() {
+	const correctAnswersDisplay = document.getElementById('correctAnswersDisplay');
+	const incorrectAnswersDisplay = document.getElementById('incorrectAnswersDisplay');
+	const playAgainButton = document.getElementById('play-again');
+	const score = document.getElementById('score');
+
+	score.innerText = `${userScore} PTS`;
+	correctAnswersDisplay.innerText = correctlyAnswered.length;
+	incorrectAnswersDisplay.innerText = incorrectlyAnswered.length;
+
+	endGameModal.classList.add('show');
+
+	playAgainButton.addEventListener('click', () => {
+		endGame();
+		endGameModal.classList.remove('show');
+	});
+}
+
 //Helper Functions//
 const addData = (arr, el) => {
 	arr.push(el);
 };
+
+async function shuffleArray(array) {
+	let currentIndex = array.length,
+		randomIndex;
+
+	// While there remain elements to shuffle.
+	while (currentIndex != 0) {
+		// Pick a remaining element.
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex--;
+
+		// And swap it with the current element.
+		[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+	}
+	return array;
+}
 
 const randomizeCorrectAnswer = () => {
 	return Math.floor(Math.random() * 4);
@@ -257,37 +399,3 @@ const resetProgressBar = () => {
 
 	currentQuestionNum.nextElementSibling.textContent = `${currentQuestionNum.value}/${quizData.length}`;
 };
-
-//TODO improve this
-let show = true;
-const checkboxes = document.getElementById('checkBoxes');
-
-function showCheckboxes() {
-	if (show) {
-		checkboxes.style.display = 'block';
-		show = false;
-	} else {
-		checkboxes.style.display = 'none';
-		show = true;
-	}
-}
-
-//TODO: implement endgame screen with score, number of correct answers, number of inccorect answers, play again button
-function showEndGameScreen() {
-	const correctAnswersDisplay = document.getElementById('correctAnswersDisplay');
-	const incorrectAnswersDisplay = document.getElementById('incorrectAnswersDisplay');
-	const playAgainButton = document.getElementById('play-again');
-
-	correctAnswersDisplay.innerText = correctlyAnswered.length;
-	incorrectAnswersDisplay.innerText = incorrectlyAnswered.length;
-
-	endGameModal.classList.add('show');
-
-	playAgainButton.addEventListener('click', ()=>{
-		endGame();
-		endGameModal.classList.remove('show');
-	});
-
-}
-
-//TODO implement the QUIT button during game play
