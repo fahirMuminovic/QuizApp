@@ -15,7 +15,6 @@ const quitButton = document.getElementById('quit-button');
 
 let quizData = [];
 let correctAnswers = [];
-let incorrectAnswers = [];
 
 let correctlyAnswered = [];
 let incorrectlyAnswered = [];
@@ -112,7 +111,7 @@ async function fetchQuestions() {
 			//add this element to global arrays
 			addData(quizData, fetchedData);
 			addData(correctAnswers, el.correctAnswer);
-			addData(incorrectAnswers, el.incorrectAnswers);
+			/* addData(incorrectAnswers, el.incorrectAnswers); */
 		});
 	}
 
@@ -198,9 +197,6 @@ function nextQuestion(questions = quizData) {
 		showEndGameScreen();
 	}
 
-	//increment the dom element in progress bar
-	currentQuestionNum.value += 1;
-
 	questions.forEach((question, elIndex) => {
 		if (elIndex === questionNum) {
 			//display the question on the page
@@ -213,7 +209,7 @@ function nextQuestion(questions = quizData) {
 }
 
 function addScore() {
-	let questionDifficulty = quizData[currentQuestionNum.value - 1].questionDifficulty;
+	let questionDifficulty = quizData[currentQuestionNum.value].questionDifficulty;
 
 	if (questionDifficulty === 'easy') {
 		userScore += 100;
@@ -273,7 +269,7 @@ function checkUsersAnswer(event) {
 		//show popup
 		questionAnswerPopupMsg.classList.toggle('show');
 		questionAnswerPopupMsg.firstElementChild.textContent = `Sorry that is incorrect. The correct answer is:
-		${correctAnswers[currentQuestionNum.value - 1]}`;
+		${quizData[currentQuestionNum.value - 1].correctAnswerText}`;
 
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
@@ -290,7 +286,6 @@ function endGame() {
 	//reset all global variables
 	quizData = [];
 	correctAnswers = [];
-	incorrectAnswers = [];
 
 	correctlyAnswered = [];
 	incorrectlyAnswered = [];
@@ -348,13 +343,17 @@ const randomizeCorrectAnswer = () => {
 const updateProgressBar = () => {
 	//set the max value on the dom element according to the user inputed limit to the api call
 	currentQuestionNum.max = quizData.length;
+	//increment the dom element in progress bar
+	currentQuestionNum.value += 1;
 	//display the current question number and total questions
 	currentQuestionNum.nextElementSibling.textContent = `${currentQuestionNum.value}/${quizData.length}`;
 };
 
 const resetProgressBar = () => {
 	currentQuestionNum.max = quizData.length;
-	currentQuestionNum.value = 1;
+	currentQuestionNum.value = 0;
 
-	currentQuestionNum.nextElementSibling.textContent = `${currentQuestionNum.value}/${quizData.length}`;
+	currentQuestionNum.nextElementSibling.textContent = `${currentQuestionNum.value + 1}/${
+		quizData.length
+	}`;
 };

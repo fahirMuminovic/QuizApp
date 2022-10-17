@@ -106,7 +106,6 @@ input[type='range']::-moz-range-track {
 	border-radius: 8px;
 }
 
-
 /***** Thumb Styles *****/
 /***** Chrome, Safari, Opera, and Edge Chromium *****/
 input[type='range']::-webkit-slider-thumb {
@@ -317,11 +316,12 @@ div.select-wrapper {
 }
 
 .answer-wrapper:hover {
-	border: 2px solid #f4b400;
+	border: 2px solid #000;
 }
 
 .answer-wrapper:hover > div {
-	background-color: rgba(244, 180, 0, 0.8);
+	background-color: #000;
+	color: #fff;
 }
 
 .answer-wrapper input {
