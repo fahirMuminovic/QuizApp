@@ -111,10 +111,9 @@
 			<div class="main-container">
 				<div class="question-container">
 					<p class="question" id="question"></p>
-					<span class="categoryDisplay" id="categoryDisplay">
-					</span>
+					<span class="categoryDisplay" id="categoryDisplay"></span>
 				</div>
-				<div class="answers-container" style="display: flex; flex-direction: column">
+				<div class="answers-container">
 					<span class="answer-wrapper">
 						<div class="answer-letter">A</div>
 						<input type="radio" name="answers" id="answer-a" />
@@ -139,10 +138,6 @@
 						<p class="answerText" id="3"></p>
 					</span>
 				</div>
-			</div>
-
-			<div class="modal" id="modal">
-				<p id="modal-body"></p>
 			</div>
 
 			<div class="game-end-modal" id="game-end-modal">
@@ -178,8 +173,13 @@
 			</div>
 
 			<div class="progress-container">
-				<div class="question-timer-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="">
-					<div class="question-timer" id="question-timer" style="width: 0%;"></div>
+				<div
+					class="question-timer-container"
+					role="progressbar"
+					aria-valuemin="0"
+					aria-valuemax="100"
+					aria-valuenow="">
+					<div class="question-timer" id="question-timer" style="width: 0%"></div>
 				</div>
 				<span>
 					<progress id="questionNumber" value="0" max=""></progress>

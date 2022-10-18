@@ -1,9 +1,9 @@
-/**
+/*
  * TODO
- * 3. implement time tracking for overall quiz time
- * 4. implement a time limit for answering questions (possibly display as a loading bar)
- * 5. display current score during gameplay (possibly add animation on change)
- * 6. make a loading icon for change between game configuration screen and game-play
+ * 1. display current score during gameplay (possibly add animation on change)
+ * 2. make a loading icon for change between game configuration screen and game-play
+ * 3. fix bug when user click answers containers during checkUserAnswer() period
+ * 4. fix bug with progress bar going crazy
  */
 
 //game setup assetsionNumber
@@ -186,9 +186,8 @@ async function populateUI() {
 	//update the ProgressBar
 	updateProgressBar();
 	//after 1 second start question timer
-	setTimeout(() => {
-		startQuestionTimer();
-	}, 1000);
+
+	startQuestionTimer();
 }
 
 function displayPossibleAnswers(question) {
@@ -228,9 +227,8 @@ function nextQuestion(questions = quizData) {
 	});
 	updateProgressBar();
 	//after 1 second start question timer
-	setTimeout(() => {
-		startQuestionTimer();
-	}, 1000);
+
+	startQuestionTimer();
 }
 
 function displayQuestionCategory(questionCategory) {
@@ -252,7 +250,7 @@ function addScore() {
 }
 
 function checkUsersAnswer(event) {
-	//stop the question timerž
+	//stop the question timer
 	const progressBar = document.getElementById('question-timer');
 	clearInterval(questionTimer);
 	progressBar.parentElement.ariaValueNow = 0;
