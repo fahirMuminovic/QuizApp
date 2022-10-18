@@ -29,6 +29,7 @@ let userScore = 0;
 //holds the timer id
 let overallTimer = 0;
 let questionTimer = 0;
+
 //Event Listeners//
 startGameButton.addEventListener('click', (e) => {
 	e.preventDefault();
@@ -165,10 +166,12 @@ async function configureGame() {
 }
 
 async function startGame() {
+	toggleLoadingIcon();
 	//make sure that the UI is populated
 	await populateUI();
 	//removes the used for game configuration on page load
 	gameConfigurationScreen.classList.add('done');
+	toggleLoadingIcon();
 }
 //pupulates the UI with the question and answers on initial page load
 async function populateUI() {
@@ -224,7 +227,6 @@ function nextQuestion(questions = quizData) {
 		}
 	});
 	updateProgressBar();
-
 	//start question timer
 	startQuestionTimer();
 }
@@ -232,6 +234,16 @@ function nextQuestion(questions = quizData) {
 function displayQuestionCategory(questionCategory) {
 	const categoryContainerEl = document.getElementById('categoryDisplay');
 	categoryContainerEl.textContent = questionCategory;
+}
+
+function toggleLoadingIcon() {
+	const loader = document.getElementById('loadinIcon');
+
+	if (loader.classList.contains('show')) {
+		loader.classList.remove('show');
+	} else if (!loader.classList.contains('show')) {
+		loader.classList.add('show');
+	}
 }
 
 function addScore() {
@@ -357,6 +369,8 @@ function endGame() {
 }
 
 function showEndGameScreen() {
+	//for animating start screen if user clicks play again
+	const gameStartScreen = document.getElementById('game-setup');
 	//stop timer
 	clearInterval(overallTimer);
 	//format the time that is displayed
@@ -375,6 +389,7 @@ function showEndGameScreen() {
 
 	playAgainButton.addEventListener('click', () => {
 		endGame();
+		gameStartScreen.classList.add('animate-bottom');
 		endGameModal.classList.remove('show');
 	});
 }
@@ -388,7 +403,6 @@ function showCorrectAnswer() {
 			corrAnswerContainer.classList.add('correct');
 		}
 	});
-	console.log(corrAnswerContainer);
 	//mark this question as incorrectly answered
 	incorrectlyAnsweredCount++;
 

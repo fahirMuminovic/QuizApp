@@ -35,6 +35,36 @@ span {
 	cursor: default;
 }
 
+.animate-bottom {
+	position: relative;
+	-webkit-animation-name: animatebottom;
+	-webkit-animation-duration: 350ms;
+	animation-name: animatebottom;
+	animation-duration: 350ms;
+}
+
+@-webkit-keyframes animatebottom {
+	from {
+		bottom: -100px;
+		opacity: 0;
+	}
+	to {
+		bottom: 0px;
+		opacity: 1;
+	}
+}
+
+@keyframes animatebottom {
+	from {
+		bottom: -100px;
+		opacity: 0;
+	}
+	to {
+		bottom: 0;
+		opacity: 1;
+	}
+}
+
 .game-setup {
 	display: flex;
 	flex-direction: column;
@@ -476,35 +506,6 @@ div.select-wrapper {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
 }
 
-.game-end-modal {
-	visibility: hidden;
-	opacity: 0;
-	z-index: -1;
-
-	height: 100vh;
-	width: 100vw;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-
-	position: absolute;
-
-	color: #000;
-	background-color: #e5e5e5;
-
-	font-family: 'Zilla Slab', serif;
-	font-size: 36px;
-
-	transition: all 0.5s ease-in-out;
-}
-.game-end-modal.show {
-	visibility: visible;
-	z-index: 20;
-	opacity: 1;
-}
-
 button {
 	background-color: #000000;
 	color: #ffffff;
@@ -532,6 +533,30 @@ button:hover {
 	border-color: #000;
 	box-shadow: none;
 	color: #000;
+}
+
+.game-end-modal {
+	display: none;
+
+	height: 100vh;
+	width: 100vw;
+
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+
+	color: #000;
+	background-color: #e5e5e5;
+
+	font-family: 'Zilla Slab', serif;
+	font-size: 36px;
+
+}
+.game-end-modal.show {
+	display: flex;
+	z-index: 20;
 }
 
 .end-game-modal-body {
@@ -642,12 +667,39 @@ button#play-again:hover {
 	border-bottom-right-radius: 8px;
 }
 
-.loading {
+.loadingIcon {
+	display: none;
+	/********* center on page ********/
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin: -38px 0 0 -38px;
+	/*********************************/
+
+	border: 8px solid #fff; /* Light grey */
+
+	border-top: 8px solid #191414; /* Blue */
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	animation: spin 2s linear infinite;
+
+	z-index: 100;
+
 	cursor: wait; /* busy cursor feedback */
 	pointer-events: none;
 }
 
-.loading * {
-	/* disable all mouse events on subElements */
-	pointer-events: none;
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.loadingIcon.show {
+	display: block;
 }
