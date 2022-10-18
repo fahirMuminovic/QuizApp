@@ -24,11 +24,12 @@ const overallTime = document.getElementById('overallTime');
 let quizData = [];
 let correctAnswers = [];
 
-let correctlyAnswered = [];
-let incorrectlyAnswered = [];
+let correctlyAnsweredCount = 0;
+let incorrectlyAnsweredCount = 0;
 let userScore = 0;
 //holds the timer id
 let overallTimer = 0;
+let questionTimer = 0;
 //Event Listeners//
 startGameButton.addEventListener('click', (e) => {
 	e.preventDefault();
@@ -184,6 +185,10 @@ async function populateUI() {
 
 	//update the ProgressBar
 	updateProgressBar();
+	//after 1 second start question timer
+	setTimeout(() => {
+		startQuestionTimer();
+	}, 1000);
 }
 
 function displayPossibleAnswers(question) {
@@ -222,6 +227,10 @@ function nextQuestion(questions = quizData) {
 		}
 	});
 	updateProgressBar();
+	//after 1 second start question timer
+	setTimeout(() => {
+		startQuestionTimer();
+	}, 1000);
 }
 
 function displayQuestionCategory(questionCategory) {
@@ -243,6 +252,13 @@ function addScore() {
 }
 
 function checkUsersAnswer(event) {
+	//stop the question timerž
+	const progressBar = document.getElementById('question-timer');
+	clearInterval(questionTimer);
+	progressBar.parentElement.ariaValueNow = 0;
+	progressBar.style.width = '0%';
+
+	//get clicked answer container
 	let answerContainer = event.target;
 	let selectedAnswerText = '';
 	let container = undefined;
@@ -261,8 +277,8 @@ function checkUsersAnswer(event) {
 
 	//check if selected answer is correct
 	if (correctAnswers.includes(selectedAnswerText)) {
-		//add this answer to correctlyAnswered
-		addData(correctlyAnswered, selectedAnswerText);
+		//mark this answer as correctlyAnswered
+		correctlyAnsweredCount++;
 		//display that the choosen answer is correct
 		container.classList.add('correct');
 
@@ -276,8 +292,8 @@ function checkUsersAnswer(event) {
 			nextQuestion();
 		}, 3000);
 	} else {
-		//add this answer to incorrectlyAnswered
-		addData(incorrectlyAnswered, selectedAnswerText);
+		//mark this answer as incorrectlyAnswered
+		incorrectlyAnsweredCount++;
 
 		//display that the choosen answer is incorrect, also display the correct answer
 		answerContainers.forEach((answerContainer) => {
@@ -309,8 +325,8 @@ function endGame() {
 	quizData = [];
 	correctAnswers = [];
 
-	correctlyAnswered = [];
-	incorrectlyAnswered = [];
+	correctlyAnsweredCount = 0;
+	incorrectlyAnsweredCount = 0;
 
 	userScore = 0;
 	overallTimer = 0;
@@ -337,8 +353,8 @@ function showEndGameScreen() {
 	const score = document.getElementById('score');
 
 	score.innerText = `${userScore} PTS`;
-	correctAnswersDisplay.innerText = correctlyAnswered.length;
-	incorrectAnswersDisplay.innerText = incorrectlyAnswered.length;
+	correctAnswersDisplay.innerText = correctlyAnsweredCount;
+	incorrectAnswersDisplay.innerText = incorrectlyAnsweredCount;
 
 	endGameModal.classList.add('show');
 
@@ -346,6 +362,25 @@ function showEndGameScreen() {
 		endGame();
 		endGameModal.classList.remove('show');
 	});
+}
+
+function showCorrectAnswer() {
+	let corrAnswerContainer = undefined;
+
+	answerContainers.forEach((answerContainer) => {
+		if (correctAnswers.includes(answerContainer.children[2].innerText)) {
+			corrAnswerContainer = answerContainer;
+			corrAnswerContainer.classList.add('correct');
+		}
+	});
+	console.log(corrAnswerContainer);
+	//mark this question as incorrectly answered
+	incorrectlyAnsweredCount++;
+
+	setTimeout(() => {
+		corrAnswerContainer.classList.remove('correct');
+		nextQuestion();
+	}, 3000);
 }
 
 //Helper Functions//
@@ -413,4 +448,23 @@ const formatTime = (timeDOMElement) => {
 	} else if (time >= 3600) {
 		timeDOMElement.textContent = `${hours}:${minutes}:${seconds}`;
 	}
+};
+
+const startQuestionTimer = () => {
+	//used to change the width of the progress bar
+	let width = 0;
+	const progressBar = document.getElementById('question-timer');
+	questionTimer = setInterval(() => {
+		//container element used to make sure that interval clears when progress bar is at 100% width
+		if (progressBar.parentElement.ariaValueNow >= 100) {
+			clearInterval(questionTimer);
+			showCorrectAnswer();
+			progressBar.parentElement.ariaValueNow = 0;
+			progressBar.style.width = '0%';
+		} else {
+			width += 0.1;
+			progressBar.style.width = width + `%`;
+			progressBar.parentElement.ariaValueNow = width;
+		}
+	}, 10);
 };

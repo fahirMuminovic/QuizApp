@@ -112,7 +112,6 @@
 				<div class="question-container">
 					<p class="question" id="question"></p>
 					<span class="categoryDisplay" id="categoryDisplay">
-						<!-- <p class="questionCategory" id="questionCategory">Food & Drink</p> -->
 					</span>
 				</div>
 				<div class="answers-container" style="display: flex; flex-direction: column">
@@ -179,6 +178,9 @@
 			</div>
 
 			<div class="progress-container">
+				<div class="question-timer-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="">
+					<div class="question-timer" id="question-timer" style="width: 0%;"></div>
+				</div>
 				<span>
 					<progress id="questionNumber" value="0" max=""></progress>
 					<label for="questionNumber" id="questionNumberLabel"></label>

@@ -402,6 +402,7 @@ div.select-wrapper {
 }
 
 .progress-container {
+	position: relative;
 	width: 100vw;
 	height: 75px;
 	background-color: #f4f3f6;
@@ -615,4 +616,28 @@ button#play-again {
 
 button#play-again:hover {
 	background-color: rgba(29, 185, 84, 0.8);
+}
+
+.question-timer-container,
+.question-timer {
+	height: 8px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.question-timer-container {
+	width: 100%;
+
+	background-color: #e5e5e5;
+
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
+}
+
+.question-timer {
+	background-color: #4caf50;
+	width: 1%;
+
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
 }
