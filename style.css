@@ -641,3 +641,13 @@ button#play-again:hover {
 	border-top-right-radius: 8px;
 	border-bottom-right-radius: 8px;
 }
+
+.loading {
+	cursor: wait; /* busy cursor feedback */
+	pointer-events: none;
+}
+
+.loading * {
+	/* disable all mouse events on subElements */
+	pointer-events: none;
+}

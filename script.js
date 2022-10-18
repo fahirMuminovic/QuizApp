@@ -2,10 +2,9 @@
  * TODO
  * 1. display current score during gameplay (possibly add animation on change)
  * 2. make a loading icon for change between game configuration screen and game-play
- * 3. fix bug when user click answers containers during checkUserAnswer() period
- * 4. fix bug with progress bar going crazy
  */
 
+const body = document.getElementById('body');
 //game setup assetsionNumber
 const startGameButton = document.getElementById('start');
 const gameConfigurationScreen = document.getElementById('game-setup');
@@ -185,8 +184,7 @@ async function populateUI() {
 
 	//update the ProgressBar
 	updateProgressBar();
-	//after 1 second start question timer
-
+	//start question timer
 	startQuestionTimer();
 }
 
@@ -226,8 +224,8 @@ function nextQuestion(questions = quizData) {
 		}
 	});
 	updateProgressBar();
-	//after 1 second start question timer
 
+	//start question timer
 	startQuestionTimer();
 }
 
@@ -250,6 +248,14 @@ function addScore() {
 }
 
 function checkUsersAnswer(event) {
+	//this is to stop the user from clicking multiple times on answers
+	document.addEventListener('click', handler, true);
+
+	function handler(e) {
+		e.stopPropagation();
+		e.preventDefault();
+	}
+
 	//stop the question timer
 	const progressBar = document.getElementById('question-timer');
 	clearInterval(questionTimer);
@@ -273,6 +279,8 @@ function checkUsersAnswer(event) {
 		selectedAnswerText = answerContainer.lastElementChild.textContent;
 	}
 
+	body.classList.add('loading');
+
 	//check if selected answer is correct
 	if (correctAnswers.includes(selectedAnswerText)) {
 		//mark this answer as correctlyAnswered
@@ -286,6 +294,11 @@ function checkUsersAnswer(event) {
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
 			container.classList.remove('correct');
+
+			//enable click again
+			document.removeEventListener('click', handler, true);
+			body.classList.remove('loading');
+
 			//move to next question
 			nextQuestion();
 		}, 3000);
@@ -312,6 +325,10 @@ function checkUsersAnswer(event) {
 					answerContainer.classList.remove('incorrect');
 				}
 			});
+			//enable clicks again
+			document.removeEventListener('click', handler, true);
+			body.classList.remove('loading');
+
 			//move to next question
 			nextQuestion();
 		}, 3000);
