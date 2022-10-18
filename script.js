@@ -3,7 +3,7 @@
  * 1. display current score during gameplay (possibly add animation on change)
  */
 
-const body = document.getElementById('body');
+/* const body = document.getElementById('body'); */
 //game setup assetsionNumber
 const startGameButton = document.getElementById('start');
 const gameConfigurationScreen = document.getElementById('game-setup');
@@ -297,7 +297,7 @@ function checkUsersAnswer(event) {
 		selectedAnswerText = answerContainer.lastElementChild.textContent;
 	}
 
-	body.classList.add('loading');
+	/* 	body.classList.add('loading'); */
 
 	//check if selected answer is correct
 	if (correctAnswers.includes(selectedAnswerText)) {
@@ -315,7 +315,7 @@ function checkUsersAnswer(event) {
 
 			//enable click again
 			document.removeEventListener('click', handler, true);
-			body.classList.remove('loading');
+			/* body.classList.remove('loading'); */
 
 			//move to next question
 			nextQuestion();
@@ -345,7 +345,7 @@ function checkUsersAnswer(event) {
 			});
 			//enable clicks again
 			document.removeEventListener('click', handler, true);
-			body.classList.remove('loading');
+			/* body.classList.remove('loading'); */
 
 			//move to next question
 			nextQuestion();
@@ -377,8 +377,9 @@ function endGame() {
 function showEndGameScreen() {
 	//for animating start screen if user clicks play again
 	const gameStartScreen = document.getElementById('game-setup');
-	//stop timer
+	//stop timers
 	clearInterval(overallTimer);
+	clearInterval(questionTimer);
 	//format the time that is displayed
 	formatTime(overallTime);
 
@@ -403,6 +404,9 @@ function showEndGameScreen() {
 }
 
 function showCorrectAnswer() {
+	//stop current question timer
+	clearInterval(questionTimer);
+
 	let corrAnswerContainer = undefined;
 
 	answerContainers.forEach((answerContainer) => {
@@ -488,9 +492,15 @@ const formatTime = (timeDOMElement) => {
 };
 
 const startQuestionTimer = () => {
+	//dont run if the game has ended
+	if (endGameModal.classList.contains('show')) {
+		return 0;
+	}
+	
 	//used to change the width of the progress bar
 	let width = 0;
 	const progressBar = document.getElementById('question-timer');
+
 	questionTimer = setInterval(() => {
 		//container element used to make sure that interval clears when progress bar is at 100% width
 		if (progressBar.parentElement.ariaValueNow >= 100) {
