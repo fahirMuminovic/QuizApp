@@ -121,7 +121,7 @@ input[type='range'] {
 
 /***** Chrome, Safari, Opera, and Edge Chromium *****/
 input[type='range']::-webkit-slider-runnable-track {
-	background: #007aff;
+	background: #000;
 	height: 4.65px;
 
 	border-radius: 8px;
@@ -145,10 +145,10 @@ input[type='range']::-webkit-slider-thumb {
 	border: 1.9px solid rgba(68, 68, 68, 0.2);
 	border-radius: 50%;
 	background-color: #ededf0;
-	height: 15px;
-	width: 15px;
+	height: 16px;
+	width: 16px;
 
-	margin-top: -5.175px; /* Centers thumb on the track */
+	margin-top: -5.275px; /* Centers thumb on the track */
 
 	cursor: pointer;
 }
@@ -157,8 +157,8 @@ input[type='range']::-moz-range-thumb {
 	border: 1.9px solid rgba(68, 68, 68, 0.2);
 	border-radius: 50%;
 	background-color: #ededf0;
-	height: 15px;
-	width: 15px;
+	height: 16px;
+	width: 16px;
 }
 
 .categories-wrapper {
@@ -507,10 +507,10 @@ div.select-wrapper {
 }
 
 button {
-	background-color: #000000;
-	color: #ffffff;
+	background-color: #000;
+	color: #fff;
 
-	border-color: #000000;
+	border-color: #000;
 	border-radius: 4px;
 	border-style: solid;
 	border-width: 1.99405px;
@@ -552,7 +552,6 @@ button:hover {
 
 	font-family: 'Zilla Slab', serif;
 	font-size: 36px;
-
 }
 .game-end-modal.show {
 	display: flex;

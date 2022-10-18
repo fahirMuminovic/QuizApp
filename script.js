@@ -1,7 +1,6 @@
 /*
  * TODO
  * 1. display current score during gameplay (possibly add animation on change)
- * 2. make a loading icon for change between game configuration screen and game-play
  */
 
 const body = document.getElementById('body');
@@ -56,7 +55,14 @@ answerContainers.forEach((answerContainer) => {
 	});
 });
 
-quitButton.addEventListener('click', endGame);
+quitButton.addEventListener('click', () => {
+	//for animating start screen if user clicks play again
+	const gameStartScreen = document.getElementById('game-setup');
+	endGame();
+	if (!gameStartScreen.classList.contains('animate-bottom')) {
+		gameStartScreen.classList.add('animate-bottom');
+	}
+});
 
 selectGameDifficultyDropDown.addEventListener('click', () => {
 	selectGameDifficultyDropDown.lastElementChild.classList.toggle('show');
@@ -389,7 +395,9 @@ function showEndGameScreen() {
 
 	playAgainButton.addEventListener('click', () => {
 		endGame();
-		gameStartScreen.classList.add('animate-bottom');
+		if (!gameStartScreen.classList.contains('animate-bottom')) {
+			gameStartScreen.classList.add('animate-bottom');
+		}
 		endGameModal.classList.remove('show');
 	});
 }
