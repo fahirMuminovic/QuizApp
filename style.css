@@ -365,6 +365,9 @@ button:hover {
 	background-size: 30px;
 	background-position: center;
 }
+body:not(.dark-theme) .theme-icon{
+	background-image: url('svg/moon.svg');
+}
 
 body.dark-theme .theme-icon {
 	background-image: url('svg/sun.svg');
