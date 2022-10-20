@@ -39,8 +39,8 @@ body.dark-theme {
 	--background-elevated-2: #323232;
 	--accent-color-main: #2374ff;
 	--accent-color-one: #000;
-	--accent-color-two: #fff;
-	--font-color: #fff;
+	--accent-color-two: #ececec;
+	--font-color: #dcdcdc;
 	--font-color-inverse: #191414;
 
 	background-color: var(--background);
