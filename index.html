@@ -13,7 +13,10 @@
 		<script src="script.js" defer></script>
 	</head>
 	<body class="body" id="body">
-		<div class="loadingIcon" id="loadinIcon"></div>
+		<div class="loadingScreen" id="loadingScreen">
+			<div class="loadingIcon" id="loadinIcon"></div>
+		</div>
+		<div class="changeTheme" id="changeTheme"><div class="theme-icon" id="theme-icon"></div></div>
 		<div class="game-setup" id="game-setup">
 			<h1 class="setup">Quiz Game</h1>
 
@@ -31,44 +34,44 @@
 
 				<div class="categories-wrapper">
 					<p>Choose categories:</p>
-					<label for="arts_and_literature">
+					<label for="arts_and_literature" class="checkbox-label">
 						<input type="checkbox" id="arts_and_literature" value="arts_and_literature" />
 						Arts & Literature
 					</label>
 
-					<label for="film_and_tv">
+					<label for="film_and_tv" class="checkbox-label">
 						<input type="checkbox" id="film_and_tv" value="film_and_tv" />
 						Film & TV
 					</label>
-					<label for="food_and_drink">
+					<label for="food_and_drink" class="checkbox-label">
 						<input type="checkbox" id="food_and_drink" value="food_and_drink" />
 						Food & Drink
 					</label>
-					<label for="general_knowledge">
+					<label for="general_knowledge" class="checkbox-label">
 						<input type="checkbox" id="general_knowledge" value="general_knowledge" />
 						General Knowledge
 					</label>
-					<label for="geography">
+					<label for="geography" class="checkbox-label">
 						<input type="checkbox" id="geography" value="geography" />
 						Geography
 					</label>
-					<label for="history">
+					<label for="history" class="checkbox-label">
 						<input type="checkbox" id="history" value="history" />
 						History
 					</label>
-					<label for="music">
+					<label for="music" class="checkbox-label">
 						<input type="checkbox" id="music" value="music" />
 						Music
 					</label>
-					<label for="science">
+					<label for="science" class="checkbox-label">
 						<input type="checkbox" id="science" value="science" />
 						Science
 					</label>
-					<label for="society_and_culture">
+					<label for="society_and_culture" class="checkbox-label">
 						<input type="checkbox" id="society_and_culture" value="society_and_culture" />
 						Society & Culture
 					</label>
-					<label for="sports_and_leisure">
+					<label for="sports_and_leisure" class="checkbox-label">
 						<input type="checkbox" id="sports_and_leisure" value="sports_and_leisure" />
 						Sports & Leisure
 					</label>
@@ -87,15 +90,15 @@
 							<div class="overSelect"></div>
 						</div>
 						<div id="gameDifficultyOptions">
-							<label for="easy">
+							<label for="easy" class="checkbox-label">
 								<input type="checkbox" id="easy" value="easy" />
 								Easy
 							</label>
-							<label for="medium">
+							<label for="medium" class="checkbox-label">
 								<input type="checkbox" id="medium" value="medium" />
 								Medium
 							</label>
-							<label for="hard">
+							<label for="hard" class="checkbox-label">
 								<input type="checkbox" id="hard" value="hard" />
 								Hard
 							</label>
@@ -110,11 +113,15 @@
 		<div class="game-elements">
 			<h1>Quiz Game</h1>
 			<div class="main-container">
+				<div class="score">
+					<object data="svg/points.svg" type="image/svg+xml" class="points-svg"></object>
+					<p id="points">0 PTS</p>
+				</div>
 				<div class="question-container">
 					<p class="question" id="question"></p>
 					<span class="categoryDisplay" id="categoryDisplay"></span>
 				</div>
-				<div class="answers-container">
+				<div class="answers-container" id="answers-container">
 					<span class="answer-wrapper">
 						<div class="answer-letter">A</div>
 						<input type="radio" name="answers" id="answer-a" />
@@ -139,6 +146,22 @@
 						<p class="answerText" id="3"></p>
 					</span>
 				</div>
+			</div>
+
+			<div class="progress-container">
+				<div
+					class="question-timer-container"
+					role="progressbar"
+					aria-valuemin="0"
+					aria-valuemax="100"
+					aria-valuenow="">
+					<div class="question-timer" id="question-timer" style="width: 0%"></div>
+				</div>
+				<span>
+					<progress id="questionNumber" value="0" max=""></progress>
+					<label for="questionNumber" id="questionNumberLabel"></label>
+				</span>
+				<button id="quit-button">QUIT</button>
 			</div>
 
 			<div class="game-end-modal animate-bottom" id="game-end-modal">
@@ -171,22 +194,6 @@
 					</div>
 					<button id="play-again">PLAY AGAIN</button>
 				</div>
-			</div>
-
-			<div class="progress-container">
-				<div
-					class="question-timer-container"
-					role="progressbar"
-					aria-valuemin="0"
-					aria-valuemax="100"
-					aria-valuenow="">
-					<div class="question-timer" id="question-timer" style="width: 0%"></div>
-				</div>
-				<span>
-					<progress id="questionNumber" value="0" max=""></progress>
-					<label for="questionNumber" id="questionNumberLabel"></label>
-				</span>
-				<button id="quit-button">QUIT</button>
 			</div>
 		</div>
 	</body>

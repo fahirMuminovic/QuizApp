@@ -1,9 +1,4 @@
-/*
- * TODO
- * 1. display current score during gameplay (possibly add animation on change)
- */
-
-/* const body = document.getElementById('body'); */
+const changeThemeBtn = document.getElementById('changeTheme');
 //game setup assetsionNumber
 const startGameButton = document.getElementById('start');
 const gameConfigurationScreen = document.getElementById('game-setup');
@@ -18,6 +13,7 @@ const currentQuestionNum = document.getElementById('questionNumber');
 const endGameModal = document.getElementById('game-end-modal');
 const quitButton = document.getElementById('quit-button');
 const overallTime = document.getElementById('overallTime');
+const pointsDisplay = document.getElementById('points');
 
 let quizData = [];
 let correctAnswers = [];
@@ -29,7 +25,25 @@ let userScore = 0;
 let overallTimer = 0;
 let questionTimer = 0;
 
+//get theme from local storage
+let currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'dark-theme') {
+	document.body.classList.add('dark-theme');
+}
+
 //Event Listeners//
+//change web page theme
+changeThemeBtn.addEventListener('click', () => {
+	document.body.classList.toggle('dark-theme');
+
+	let theme = 'light';
+	if (document.body.classList.contains('dark-theme')) {
+		theme = 'dark-theme';
+	}
+	localStorage.setItem('theme', theme);
+});
+
+//start game
 startGameButton.addEventListener('click', (e) => {
 	e.preventDefault();
 	startGame();
@@ -242,18 +256,9 @@ function displayQuestionCategory(questionCategory) {
 	categoryContainerEl.textContent = questionCategory;
 }
 
-function toggleLoadingIcon() {
-	const loader = document.getElementById('loadinIcon');
-
-	if (loader.classList.contains('show')) {
-		loader.classList.remove('show');
-	} else if (!loader.classList.contains('show')) {
-		loader.classList.add('show');
-	}
-}
-
+//add score if answer is correct, also displays it on page
 function addScore() {
-	let questionDifficulty = quizData[currentQuestionNum.value - 1].questionDifficulty;
+	const questionDifficulty = quizData[currentQuestionNum.value - 1].questionDifficulty;
 
 	if (questionDifficulty === 'easy') {
 		userScore += 100;
@@ -263,12 +268,13 @@ function addScore() {
 	} else if (questionDifficulty === 'hard') {
 		userScore += 500;
 	}
+
+	pointsDisplay.textContent = `${userScore} PTS`;
 }
 
 function checkUsersAnswer(event) {
 	//this is to stop the user from clicking multiple times on answers
 	document.addEventListener('click', handler, true);
-
 	function handler(e) {
 		e.stopPropagation();
 		e.preventDefault();
@@ -297,10 +303,9 @@ function checkUsersAnswer(event) {
 		selectedAnswerText = answerContainer.lastElementChild.textContent;
 	}
 
-	/* 	body.classList.add('loading'); */
-
 	//check if selected answer is correct
 	if (correctAnswers.includes(selectedAnswerText)) {
+		toggleBusyCursorDisplay();
 		//mark this answer as correctlyAnswered
 		correctlyAnsweredCount++;
 		//display that the choosen answer is correct
@@ -315,12 +320,13 @@ function checkUsersAnswer(event) {
 
 			//enable click again
 			document.removeEventListener('click', handler, true);
-			/* body.classList.remove('loading'); */
+			toggleBusyCursorDisplay();
 
 			//move to next question
 			nextQuestion();
 		}, 3000);
 	} else {
+		toggleBusyCursorDisplay();
 		//mark this answer as incorrectlyAnswered
 		incorrectlyAnsweredCount++;
 
@@ -343,14 +349,19 @@ function checkUsersAnswer(event) {
 					answerContainer.classList.remove('incorrect');
 				}
 			});
+
 			//enable clicks again
 			document.removeEventListener('click', handler, true);
-			/* body.classList.remove('loading'); */
+			toggleBusyCursorDisplay();
 
 			//move to next question
 			nextQuestion();
 		}, 3000);
 	}
+}
+
+function toggleBusyCursorDisplay() {
+	document.getElementById('answers-container').classList.toggle('change-cursor');
 }
 
 function endGame() {
@@ -369,6 +380,8 @@ function endGame() {
 
 	//reset the overall time
 	overallTime.textContent = '';
+	//reset the points
+	pointsDisplay.textContent = '0 PTS';
 
 	//display the game configuration menu on screen
 	gameConfigurationScreen.classList.remove('done');
@@ -491,12 +504,16 @@ const formatTime = (timeDOMElement) => {
 	}
 };
 
+const toggleLoadingIcon = () => {
+	document.getElementById('loadingScreen').classList.toggle('show');
+};
+
 const startQuestionTimer = () => {
 	//dont run if the game has ended
 	if (endGameModal.classList.contains('show')) {
 		return 0;
 	}
-	
+
 	//used to change the width of the progress bar
 	let width = 0;
 	const progressBar = document.getElementById('question-timer');
