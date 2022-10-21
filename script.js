@@ -419,7 +419,7 @@ function showCorrectAnswer() {
 		e.stopPropagation();
 		e.preventDefault();
 	}
-	//stop current question timer
+
 	clearInterval(questionTimer);
 
 	toggleBusyCursorDisplay();
