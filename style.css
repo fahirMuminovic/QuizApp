@@ -12,6 +12,52 @@
 	background: #000;
 }
 
+@media (prefers-color-scheme: dark) {
+	body {
+		--background: #121212;
+		--background-elevated-1: #222222;
+		--background-elevated-2: #323232;
+		--accent-color-main: #2374ff;
+		--accent-color-one: #000;
+		--accent-color-two: #ececec;
+		--font-color: #dcdcdc;
+		--font-color-inverse: #191414;
+		--correct: #30c760d9;
+		--incorrect: #bb0202cf;
+		--progress: #31cd63;
+
+		margin: 0;
+
+		font-family: 'Zilla Slab', serif;
+		font-size: 18px;
+
+		background-color: var(--background);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	body {
+		--background: #e5e5e5;
+		--background-elevated-1: #f0f0f0;
+		--background-elevated-2: #fafafa;
+		--accent-color-main: #000;
+		--accent-color-one: #fff;
+		--accent-color-two: #121212;
+		--font-color: #000;
+		--font-color-inverse: #f4f3f6;
+		--correct: #30c760d9;
+		--incorrect: #bb0202cf;
+		--progress: #31cd63;
+
+		margin: 0;
+
+		font-family: 'Zilla Slab', serif;
+		font-size: 18px;
+
+		background-color: var(--background);
+	}
+}
+
 body {
 	--background: #e5e5e5;
 	--background-elevated-1: #f0f0f0;
@@ -91,6 +137,7 @@ span {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: space-evenly;
 
 	position: absolute;
 
@@ -116,10 +163,20 @@ span {
 
 	gap: 25px;
 
-	border: 2px solid var(--accent-color-two);
 	border-radius: 12px;
+	border: none;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 
 	background-color: var(--background-elevated-1);
+}
+
+.game-setup fieldset legend {
+	margin-bottom: 30px;
+	position: relative;
+	top: 18px;
+
+	font-size: larger;
+	font-weight: 500;
 }
 
 input[type='range']#number-of-questions {
@@ -136,6 +193,7 @@ input[type='range'] {
 	background: transparent;
 	cursor: pointer;
 	width: 100%;
+	max-width: 700px;
 }
 
 /***** Chrome, Safari, Opera, and Edge Chromium *****/
@@ -332,7 +390,8 @@ button:hover {
 	justify-content: center;
 
 	background-color: var(--background-elevated-1);
-	box-shadow: 0px 1px 10px #000;
+	
+	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
 	border-top-right-radius: 50px;
 	border-bottom-right-radius: 50px;
@@ -360,12 +419,11 @@ button:hover {
 
 	background-color: var(--accent-color-two);
 
-	background-image: url('svg/moon.svg');
 	background-repeat: no-repeat;
 	background-size: 30px;
 	background-position: center;
 }
-body:not(.dark-theme) .theme-icon{
+body:not(.dark-theme) .theme-icon {
 	background-image: url('svg/moon.svg');
 }
 
@@ -400,7 +458,7 @@ body.dark-theme .theme-icon {
 
 	border-radius: 12px;
 
-	background-color: var(--background-elevated-1);
+	background-color: var(--background);
 }
 
 .score {
@@ -487,7 +545,7 @@ body.dark-theme .theme-icon {
 
 	position: relative;
 
-	background-color: var(--background-elevated-1);
+	background-color: var(--background);
 }
 
 .answer-wrapper {
