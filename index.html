@@ -110,7 +110,7 @@
 			</fieldset>
 		</div>
 
-		<div class="game-elements">
+		<div class="game-elements" id="game-elements">
 			<h1>Quiz Game</h1>
 			<div class="main-container">
 				<div class="score">
@@ -163,37 +163,38 @@
 				</span>
 				<button id="quit-button">QUIT</button>
 			</div>
+		</div>
 
-			<div class="game-end-modal animate-bottom" id="game-end-modal">
-				<div class="end-game-modal-body">
-					<h3>You have reached the end.</h3>
-					<p>
-						Total time:
-						<span id="overallTime"></span>
-					</p>
-					<object data="svg/trophy.svg" type="image/svg+xml" class="trophy"></object>
-					<div class="score-container">
-						<span>Score:</span>
-						<span id="score"></span>
-					</div>
-					<div>
-						<span class="correctAnswers">
-							You answered
-							<span id="correctAnswersDisplay"></span>
-							questions
-							<i>correctly</i>
-							.
-						</span>
-						<span class="incorrectAnswers">
-							You answered
-							<span id="incorrectAnswersDisplay"></span>
-							questions
-							<i>incorrectly</i>
-							.
-						</span>
-					</div>
-					<button id="play-again">PLAY AGAIN</button>
+		<div class="game-end-modal animate-bottom" id="game-end-modal">
+			<div class="end-game-modal-body">
+				<h3>You have reached the end.</h3>
+				<p>
+					Total time:
+					<span id="overallTime"></span>
+				</p>
+				<object data="svg/trophy.svg" type="image/svg+xml" class="trophy"></object>
+				<div class="score-container">
+					<span>Score:</span>
+					<span id="score">
+					</span>
 				</div>
+				<div>
+					<span class="correctAnswers">
+						You answered
+						<span id="correctAnswersDisplay"></span>
+						questions
+						<i>correctly</i>
+						.
+					</span>
+					<span class="incorrectAnswers">
+						You answered
+						<span id="incorrectAnswersDisplay"></span>
+						questions
+						<i>incorrectly</i>
+						.
+					</span>
+				</div>
+				<button id="play-again">PLAY AGAIN</button>
 			</div>
 		</div>
 	</body>

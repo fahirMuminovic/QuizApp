@@ -451,7 +451,7 @@ body.dark-theme .theme-icon {
 }
 
 .game-elements {
-	display: flex;
+	display: none;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
@@ -460,6 +460,10 @@ body.dark-theme .theme-icon {
 
 	position: relative;
 	background-color: var(--background);
+}
+
+.game-elements.show{
+	display: flex;
 }
 
 .main-container {
@@ -792,7 +796,6 @@ body.dark-theme .question-timer-container {
 
 .game-end-modal.show {
 	display: flex;
-	z-index: 20;
 }
 
 .end-game-modal-body {

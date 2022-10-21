@@ -1,5 +1,5 @@
 const changeThemeBtn = document.getElementById('changeTheme');
-//game setup assetsionNumber
+//game setup assets
 const startGameButton = document.getElementById('start');
 const gameConfigurationScreen = document.getElementById('game-setup');
 const choosenNumberOfQuestions = document.getElementById('number-of-questions');
@@ -8,7 +8,7 @@ const selectGameDifficultyDropDown = document.getElementById('multiselect');
 //game assets
 const questionElement = document.getElementById('question');
 const answersTextElement = document.querySelectorAll('p.answerText');
-const answerContainers = document.querySelectorAll('.answer-wrapper');
+const answerWrappers = document.querySelectorAll('.answer-wrapper');
 const currentQuestionNum = document.getElementById('questionNumber');
 const endGameModal = document.getElementById('game-end-modal');
 const quitButton = document.getElementById('quit-button');
@@ -62,7 +62,7 @@ window.onload = () => {
 	choosenNumberOfQuestionsSliderValue.innerText = choosenNumberOfQuestions.value;
 };
 
-answerContainers.forEach((answerContainer) => {
+answerWrappers.forEach((answerContainer) => {
 	//check answer
 	answerContainer.addEventListener('click', (event) => {
 		checkUsersAnswer(event);
@@ -189,9 +189,10 @@ async function startGame() {
 	toggleLoadingIcon();
 	//make sure that the UI is populated
 	await populateUI();
-	//removes the used for game configuration on page load
+	//removes the screen used for game configuration on page load
 	gameConfigurationScreen.classList.add('done');
 	toggleLoadingIcon();
+	document.getElementById('game-elements').classList.add('show');
 }
 //pupulates the UI with the question and answers on initial page load
 async function populateUI() {
@@ -331,7 +332,7 @@ function checkUsersAnswer(event) {
 		incorrectlyAnsweredCount++;
 
 		//display that the choosen answer is incorrect, also display the correct answer
-		answerContainers.forEach((answerContainer) => {
+		answerWrappers.forEach((answerContainer) => {
 			if (correctAnswers.includes(answerContainer.children[2].innerText)) {
 				answerContainer.classList.add('correct');
 			} else {
@@ -342,7 +343,7 @@ function checkUsersAnswer(event) {
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
 			//reset correct and incorrect classes on answer container elements
-			answerContainers.forEach((answerContainer) => {
+			answerWrappers.forEach((answerContainer) => {
 				if (answerContainer.classList.contains('correct')) {
 					answerContainer.classList.remove('correct');
 				} else {
@@ -379,11 +380,18 @@ function endGame() {
 	//reset the points
 	pointsDisplay.textContent = '0 PTS';
 
+	//reset answer container classes
+	answerWrappers.forEach((answerWrapper) => {
+		answerWrapper.classList = 'answer-wrapper';
+	});
+
 	//display the game configuration menu on screen
 	gameConfigurationScreen.classList.remove('done');
 }
 
 function showEndGameScreen() {
+	//hide the game screen
+	document.getElementById('game-elements').classList.remove('show');
 	//for animating start screen if user clicks play again
 	const gameStartScreen = document.getElementById('game-setup');
 	//stop timers
@@ -397,7 +405,7 @@ function showEndGameScreen() {
 	const playAgainButton = document.getElementById('play-again');
 	const score = document.getElementById('score');
 
-	score.innerText = `${userScore} PTS`;
+	score.textContent = `${userScore} PTS`;
 	correctAnswersDisplay.innerText = correctlyAnsweredCount;
 	incorrectAnswersDisplay.innerText = incorrectlyAnsweredCount;
 
@@ -426,7 +434,7 @@ function showCorrectAnswer() {
 
 	let corrAnswerContainer = undefined;
 
-	answerContainers.forEach((answerContainer) => {
+	answerWrappers.forEach((answerContainer) => {
 		if (correctAnswers.includes(answerContainer.children[2].innerText)) {
 			corrAnswerContainer = answerContainer;
 			corrAnswerContainer.classList.add('correct');
