@@ -70,12 +70,13 @@ answerWrappers.forEach((answerContainer) => {
 });
 
 quitButton.addEventListener('click', () => {
-	//for animating start screen if user clicks play again
+	/* 	//for animating start screen if user clicks play again
 	const gameStartScreen = document.getElementById('game-setup');
 	endGame();
 	if (!gameStartScreen.classList.contains('animate-bottom')) {
 		gameStartScreen.classList.add('animate-bottom');
-	}
+	} */
+	showEndGameScreen();
 });
 
 selectGameDifficultyDropDown.addEventListener('click', () => {
@@ -259,33 +260,53 @@ function displayQuestionCategory(questionCategory) {
 
 //add score if answer is correct, also displays it on page
 function addScore() {
+	userScore += getQuestionPoints();
+
+	pointsDisplay.textContent = `${userScore} PTS`;
+}
+
+function getQuestionPoints() {
 	const questionDifficulty = quizData[currentQuestionNum.value - 1].questionDifficulty;
 
 	if (questionDifficulty === 'easy') {
-		userScore += 100;
+		points = 100;
 	}
 	if (questionDifficulty === 'medium') {
-		userScore += 250;
+		points = 250;
 	} else if (questionDifficulty === 'hard') {
-		userScore += 500;
+		points = 500;
 	}
 
-	pointsDisplay.textContent = `${userScore} PTS`;
+	return points;
+}
+
+function toggleScoreAnimation() {
+	const currentQuestionPointsEl = document.querySelector('.current-question-points');
+	currentQuestionPointsEl.textContent = `+${getQuestionPoints()} PTS`;
+
+	if (currentQuestionPointsEl.classList.contains('show')) {
+		currentQuestionPointsEl.classList.remove('show');
+		currentQuestionPointsEl.classList.remove('fade');
+	} else {
+		currentQuestionPointsEl.classList.add('show');
+		currentQuestionPointsEl.classList.add('fade');
+	}
 }
 
 function checkUsersAnswer(event) {
 	//this is to stop the user from clicking multiple times on answers
 	document.addEventListener('click', handler, true);
 	function handler(e) {
-		e.stopPropagation();
+		/* e.stopPropagation(); */
+		e.stopImmediatePropagation();
 		e.preventDefault();
 	}
 
 	//stop the question timer
-	const progressBar = document.getElementById('question-timer');
+	document.getElementById('question-timer').classList.remove('start');
 	clearInterval(questionTimer);
-	progressBar.parentElement.ariaValueNow = 0;
-	progressBar.style.width = '0%';
+	/* progressBar.parentElement.ariaValueNow = 0;*/
+	/* progressBar.style.width = '0%'; */
 
 	//get clicked answer container
 	let answerContainer = event.target;
@@ -307,18 +328,23 @@ function checkUsersAnswer(event) {
 	//check if selected answer is correct
 	if (correctAnswers.includes(selectedAnswerText)) {
 		toggleBusyCursorDisplay();
+		toggleScoreAnimation();
 		//mark this answer as correctlyAnswered
 		correctlyAnsweredCount++;
 		//display that the choosen answer is correct
 		container.classList.add('correct');
 
 		//update user score
-		addScore();
-
+		setTimeout(() => {
+			addScore();
+		}, 1500);
+		
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
+			//show score animation
+			toggleScoreAnimation();
 			container.classList.remove('correct');
-
+			
 			//enable click again
 			document.removeEventListener('click', handler, true);
 			toggleBusyCursorDisplay();
@@ -343,13 +369,7 @@ function checkUsersAnswer(event) {
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
 			//reset correct and incorrect classes on answer container elements
-			answerWrappers.forEach((answerContainer) => {
-				if (answerContainer.classList.contains('correct')) {
-					answerContainer.classList.remove('correct');
-				} else {
-					answerContainer.classList.remove('incorrect');
-				}
-			});
+			resetAnswerWrappers();
 
 			//enable clicks again
 			document.removeEventListener('click', handler, true);
@@ -370,7 +390,8 @@ function endGame() {
 	incorrectlyAnsweredCount = 0;
 
 	userScore = 0;
-	overallTimer = 0;
+	clearInterval(overallTimer);
+	clearInterval(questionTimer);
 
 	//reset the progress bar
 	resetProgressBar();
@@ -381,9 +402,7 @@ function endGame() {
 	pointsDisplay.textContent = '0 PTS';
 
 	//reset answer container classes
-	answerWrappers.forEach((answerWrapper) => {
-		answerWrapper.classList = 'answer-wrapper';
-	});
+	resetAnswerWrappers();
 
 	//display the game configuration menu on screen
 	gameConfigurationScreen.classList.remove('done');
@@ -424,7 +443,8 @@ function showCorrectAnswer() {
 	//this is to stop the user from clicking multiple times on answers
 	document.addEventListener('click', handler, true);
 	function handler(e) {
-		e.stopPropagation();
+		/* e.stopPropagation(); */
+		e.stopImmediatePropagation();
 		e.preventDefault();
 	}
 
@@ -444,7 +464,8 @@ function showCorrectAnswer() {
 	incorrectlyAnsweredCount++;
 
 	setTimeout(() => {
-		corrAnswerContainer.classList.remove('correct');
+		//remove the class correct from answer wrapper
+		resetAnswerWrappers();
 		document.removeEventListener('click', handler, true);
 		toggleBusyCursorDisplay();
 		nextQuestion();
@@ -454,6 +475,12 @@ function showCorrectAnswer() {
 //Helper Functions//
 const addData = (arr, el) => {
 	arr.push(el);
+};
+
+const resetAnswerWrappers = () => {
+	answerWrappers.forEach((answerWrapper) => {
+		answerWrapper.classList = 'answer-wrapper';
+	});
 };
 
 async function shuffleArray(array) {
@@ -526,27 +553,18 @@ const toggleLoadingIcon = () => {
 	document.getElementById('loadingScreen').classList.toggle('show');
 };
 
-const startQuestionTimer = () => {
-	//dont run if the game has ended
+const startQuestionTimer = (time = 20) => {
 	if (endGameModal.classList.contains('show')) {
 		return 0;
 	}
 
-	//used to change the width of the progress bar
-	let width = 0;
-	const progressBar = document.getElementById('question-timer');
-
+	document.getElementById('question-timer').classList.add('start');
 	questionTimer = setInterval(() => {
-		//container element used to make sure that interval clears when progress bar is at 100% width
-		if (progressBar.parentElement.ariaValueNow >= 100) {
-			clearInterval(questionTimer);
+		time--;
+		if (time <= 0) {
 			showCorrectAnswer();
-			progressBar.parentElement.ariaValueNow = 0;
-			progressBar.style.width = '0%';
-		} else {
-			width += 0.1;
-			progressBar.style.width = width + `%`;
-			progressBar.parentElement.ariaValueNow = width;
+			clearInterval(questionTimer);
+			document.getElementById('question-timer').classList.remove('start');
 		}
-	}, 10);
+	}, 1000);
 };

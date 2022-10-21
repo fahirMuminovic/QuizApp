@@ -29,8 +29,8 @@
 					id="number-of-questions"
 					min="1"
 					max="50"
-					value="" />
-				<label for="number-of-questions" id="range-slider-value"></label>
+					value="10" />
+				<label for="number-of-questions" id="range-slider-value">10</label>
 
 				<div class="categories-wrapper">
 					<p>Choose categories:</p>
@@ -92,15 +92,26 @@
 						<div id="gameDifficultyOptions">
 							<label for="easy" class="checkbox-label">
 								<input type="checkbox" id="easy" value="easy" />
-								Easy
+								<i>
+									Easy
+									<i>100PTS</i>
+								</i>
 							</label>
 							<label for="medium" class="checkbox-label">
 								<input type="checkbox" id="medium" value="medium" />
-								Medium
+
+								<i>
+									Medium
+									<i>250PTS</i>
+								</i>
 							</label>
 							<label for="hard" class="checkbox-label">
 								<input type="checkbox" id="hard" value="hard" />
-								Hard
+
+								<i>
+									Hard
+									<i>500PTS</i>
+								</i>
 							</label>
 						</div>
 					</div>
@@ -116,6 +127,7 @@
 				<div class="score">
 					<object data="svg/points.svg" type="image/svg+xml" class="points-svg"></object>
 					<p id="points">0 PTS</p>
+					<div class="current-question-points"></div>
 				</div>
 				<div class="question-container">
 					<p class="question" id="question"></p>
@@ -155,7 +167,7 @@
 					aria-valuemin="0"
 					aria-valuemax="100"
 					aria-valuenow="">
-					<div class="question-timer" id="question-timer" style="width: 0%"></div>
+					<div class="question-timer" id="question-timer"></div>
 				</div>
 				<span>
 					<progress id="questionNumber" value="0" max=""></progress>
@@ -175,23 +187,20 @@
 				<object data="svg/trophy.svg" type="image/svg+xml" class="trophy"></object>
 				<div class="score-container">
 					<span>Score:</span>
-					<span id="score">
-					</span>
+					<span id="score"></span>
 				</div>
 				<div>
 					<span class="correctAnswers">
 						You answered
 						<span id="correctAnswersDisplay"></span>
 						questions
-						<i>correctly</i>
-						.
+						<p>correctly.</p>
 					</span>
 					<span class="incorrectAnswers">
 						You answered
 						<span id="incorrectAnswersDisplay"></span>
 						questions
-						<i>incorrectly</i>
-						.
+						<p>incorrectly.</p>
 					</span>
 				</div>
 				<button id="play-again">PLAY AGAIN</button>
