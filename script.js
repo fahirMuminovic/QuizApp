@@ -360,10 +360,6 @@ function checkUsersAnswer(event) {
 	}
 }
 
-function toggleBusyCursorDisplay() {
-	document.getElementById('answers-container').classList.toggle('change-cursor');
-}
-
 function endGame() {
 	//reset all global variables
 	quizData = [];
@@ -417,8 +413,16 @@ function showEndGameScreen() {
 }
 
 function showCorrectAnswer() {
+	//this is to stop the user from clicking multiple times on answers
+	document.addEventListener('click', handler, true);
+	function handler(e) {
+		e.stopPropagation();
+		e.preventDefault();
+	}
 	//stop current question timer
 	clearInterval(questionTimer);
+
+	toggleBusyCursorDisplay();
 
 	let corrAnswerContainer = undefined;
 
@@ -433,6 +437,8 @@ function showCorrectAnswer() {
 
 	setTimeout(() => {
 		corrAnswerContainer.classList.remove('correct');
+		document.removeEventListener('click', handler, true);
+		toggleBusyCursorDisplay();
 		nextQuestion();
 	}, 3000);
 }
@@ -461,6 +467,10 @@ async function shuffleArray(array) {
 const randomizeCorrectAnswer = () => {
 	return Math.floor(Math.random() * 4);
 };
+
+function toggleBusyCursorDisplay() {
+	document.getElementById('answers-container').classList.toggle('change-cursor');
+}
 
 const updateProgressBar = () => {
 	//set the max value on the dom element according to the user inputed limit to the api call
