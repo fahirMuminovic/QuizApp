@@ -5,6 +5,7 @@ const gameConfigurationScreen = document.getElementById('game-setup');
 const choosenNumberOfQuestions = document.getElementById('number-of-questions');
 const decrementNumberOfQuestionsBtn = document.querySelector('.decrement-input-type-number');
 const incrementNumberOfQuestionsBtn = document.querySelector('.increment-input-type-number');
+const allCategoriesCheckbox = document.getElementById('all');
 // const choosenNumberOfQuestionsSliderValue = document.getElementById('range-slider-value');
 const choosenNumberOfQuestionsSliderValue = document.getElementById('direct-number-input');
 const selectGameDifficultyDropDown = document.getElementById('multiselect');
@@ -47,24 +48,19 @@ changeThemeBtn.addEventListener('click', () => {
 });
 
 //select all categories
-const allCategoriesCheckbox = document.querySelector('#all');
 allCategoriesCheckbox.addEventListener('click', () => {
-	//set allCategoriesCheckbox as checked or unchecked
-	if (allCategoriesCheckbox.checked === true) {
-		allCategoriesCheckbox.checked = false;
-	} else {
-		allCategoriesCheckbox.checked = true;
-	}
-	//set other checkboxes as checked or unchecked (categories as selected)
 	const categories = document.querySelectorAll('.categories-wrapper input');
 
-	categories.forEach((category) => {
-		if (category.checked === true) {
-			category.checked = false;
-		} else {
+	if (allCategoriesCheckbox.checked === true) {
+		categories.forEach((category) => {
 			category.checked = true;
-		}
-	});
+		});
+	} else {
+		console.log('false');
+		categories.forEach((category) => {
+			category.checked = false;
+		});
+	}
 });
 
 //start game
@@ -109,12 +105,6 @@ answerWrappers.forEach((answerContainer) => {
 });
 
 quitButton.addEventListener('click', () => {
-	/* 	//for animating start screen if user clicks play again
-	const gameStartScreen = document.getElementById('game-setup');
-	endGame();
-	if (!gameStartScreen.classList.contains('animate-bottom')) {
-		gameStartScreen.classList.add('animate-bottom');
-	} */
 	showEndGameScreen();
 });
 
@@ -187,7 +177,6 @@ async function fetchQuestions() {
 			addData(correctAnswers, el.correctAnswer);
 		});
 	}
-	//TODO test to see of shuffleArray needs to be async
 	//shuffle the final array
 	return await shuffleArray(quizData);
 }
