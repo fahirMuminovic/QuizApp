@@ -170,7 +170,7 @@ span {
 	flex-direction: column;
 	justify-content: center;
 
-	gap: 25px;
+	/* gap: 25px; */
 
 	border-radius: 12px;
 	border: none;
@@ -191,14 +191,6 @@ body.dark-theme .game-setup fieldset {
 
 	font-size: larger;
 	font-weight: 500;
-}
-
-input[type='range']#number-of-questions {
-	margin-top: -16px;
-}
-
-label#range-slider-value {
-	margin: -26px 5px 0px 5px;
 }
 
 input[type='range'] {
@@ -251,13 +243,101 @@ input[type='range']::-moz-range-thumb {
 	width: 16px;
 }
 
+.input-type-number-of-questions {
+	display: flex;
+	align-items: center;
+
+	height: 36px;
+	margin-top: 5px;
+}
+
+button.increment-input-type-number,
+button.decrement-input-type-number {
+	position: relative;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	height: 50%;
+	width: 15px;
+
+	border: 0.5px solid var(--accent-color-main);
+	border-radius: 0;
+
+	background-color: var(--background-elevated-2);
+	color: var(--font-color);
+
+	padding: 2px;
+	text-align: center;
+}
+
+button.increment-input-type-number {
+	top: -25%;
+	border-bottom: none;
+}
+
+button.decrement-input-type-number {
+	top: 25%;
+	left: -15px;
+}
+
+button.increment-input-type-number:active,
+button.decrement-input-type-number:active {
+	font-size: larger;
+}
+button.increment-input-type-number:hover,
+button.decrement-input-type-number:hover {
+	background-color: var(--background-elevated-2);
+	color: var(--accent-color-main);
+}
+
+/**** number input ****/
+/* Chrome, Safari, Edge, Opera */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+	-moz-appearance: textfield;
+}
+
+input[type='number'] {
+	margin: 0;
+	position: relative;
+
+	width: 33px;
+	height: inherit;
+
+	background-color: var(--background-elevated-2);
+	color: var(--font-color);
+
+	font-family: 'Zilla Slab', serif;
+	font-size: 25px;
+	font-weight: 600;
+
+	border: none;
+	border: 0.5px solid var(--accent-color-main);
+	border-right: none;
+
+	text-align: center;
+	vertical-align: middle;
+}
+
+input[type='number']:focus {
+	outline: none;
+}
+
 .categories-wrapper {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: baseline;
 
-	margin-top: -25px;
+	/* margin-top: -25px; */
 }
 
 .categories-wrapper p {
@@ -283,7 +363,7 @@ input[type='range']::-moz-range-thumb {
 	justify-content: space-between;
 }
 
-.checkbox-label i > *{
+.checkbox-label i > * {
 	opacity: 0.6;
 }
 
@@ -293,12 +373,15 @@ input[type='checkbox'] {
 }
 
 label.select-label {
-	margin-bottom: -15px;
+	margin-top: 15px;
+	/* margin-bottom: -15px; */
 }
 
 div.select-wrapper {
 	display: flex;
 	flex-direction: column;
+
+	margin-bottom: 20px;
 }
 
 .multiselect {

@@ -3,7 +3,10 @@ const changeThemeBtn = document.getElementById('changeTheme');
 const startGameButton = document.getElementById('start');
 const gameConfigurationScreen = document.getElementById('game-setup');
 const choosenNumberOfQuestions = document.getElementById('number-of-questions');
-const choosenNumberOfQuestionsSliderValue = document.getElementById('range-slider-value');
+const decrementNumberOfQuestionsBtn = document.querySelector('.decrement-input-type-number');
+const incrementNumberOfQuestionsBtn = document.querySelector('.increment-input-type-number');
+// const choosenNumberOfQuestionsSliderValue = document.getElementById('range-slider-value');
+const choosenNumberOfQuestionsSliderValue = document.getElementById('direct-number-input');
 const selectGameDifficultyDropDown = document.getElementById('multiselect');
 //game assets
 const questionElement = document.getElementById('question');
@@ -74,13 +77,28 @@ startGameButton.addEventListener('click', (e) => {
 
 choosenNumberOfQuestions.addEventListener('input', () => {
 	//update the display of chosen questions that is positioned below the slider
-	choosenNumberOfQuestionsSliderValue.innerText = choosenNumberOfQuestions.value;
+	choosenNumberOfQuestionsSliderValue.value = choosenNumberOfQuestions.value;
+});
+
+choosenNumberOfQuestionsSliderValue.addEventListener('change', () => {
+	//update the display of chosen questions that is positioned below the slider
+	choosenNumberOfQuestions.value = choosenNumberOfQuestionsSliderValue.value;
+});
+//decrement button by input[type='number']
+decrementNumberOfQuestionsBtn.addEventListener('click', (e) => {
+	choosenNumberOfQuestions.value--;
+	choosenNumberOfQuestionsSliderValue.value--;
+});
+//inrement button by input[type='number']
+incrementNumberOfQuestionsBtn.addEventListener('click', (e) => {
+	choosenNumberOfQuestions.value++;
+	choosenNumberOfQuestionsSliderValue.value++;
 });
 
 window.onload = () => {
 	//set the default value for number of questions to 10
 	choosenNumberOfQuestions.value = 10;
-	choosenNumberOfQuestionsSliderValue.innerText = choosenNumberOfQuestions.value;
+	choosenNumberOfQuestionsSliderValue.value = choosenNumberOfQuestions.value;
 };
 
 answerWrappers.forEach((answerContainer) => {
