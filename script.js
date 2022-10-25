@@ -43,6 +43,27 @@ changeThemeBtn.addEventListener('click', () => {
 	localStorage.setItem('theme', theme);
 });
 
+//select all categories
+const allCategoriesCheckbox = document.querySelector('#all');
+allCategoriesCheckbox.addEventListener('click', () => {
+	//set allCategoriesCheckbox as checked or unchecked
+	if (allCategoriesCheckbox.checked === true) {
+		allCategoriesCheckbox.checked = false;
+	} else {
+		allCategoriesCheckbox.checked = true;
+	}
+	//set other checkboxes as checked or unchecked (categories as selected)
+	const categories = document.querySelectorAll('.categories-wrapper input');
+
+	categories.forEach((category) => {
+		if (category.checked === true) {
+			category.checked = false;
+		} else {
+			category.checked = true;
+		}
+	});
+});
+
 //start game
 startGameButton.addEventListener('click', (e) => {
 	e.preventDefault();
@@ -168,6 +189,7 @@ async function configureGame() {
 	];
 	const categories = document.querySelectorAll('.categories-wrapper input:checked');
 	const gameDifficulty = document.querySelectorAll('#gameDifficultyOptions input:checked');
+	const checkboxAllCategories = document.querySelector('#all');
 
 	//get the user configurations for the game and format them
 	let choosenCategories = [...categories].map((option) => option.value).join(',');
@@ -176,6 +198,12 @@ async function configureGame() {
 
 	//if no particular category is choosen then use all categories
 	choosenCategories = choosenCategories === '' ? allCategories.join(',') : choosenCategories;
+
+	//all categories checkbox is checked
+	if (checkboxAllCategories.checked) {
+		choosenCategories = allCategories.join(',');
+	}
+
 	//if you make a request to the API with difficulty left out, you get questions of all difficulties
 	choosengameDifficulty = choosengameDifficulty.length === 3 ? [] : choosengameDifficulty;
 
@@ -338,13 +366,13 @@ function checkUsersAnswer(event) {
 		setTimeout(() => {
 			addScore();
 		}, 1500);
-		
+
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
 			//show score animation
 			toggleScoreAnimation();
 			container.classList.remove('correct');
-			
+
 			//enable click again
 			document.removeEventListener('click', handler, true);
 			toggleBusyCursorDisplay();
