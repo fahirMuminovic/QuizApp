@@ -265,7 +265,7 @@ button.decrement-input-type-number {
 	border: 0.5px solid var(--accent-color-main);
 	border-radius: 0;
 
-	background-color: var(--background-elevated-2);
+	background-color: var(--background-elevated-1);
 	color: var(--font-color);
 
 	padding: 2px;
@@ -288,7 +288,7 @@ button.decrement-input-type-number:active {
 }
 button.increment-input-type-number:hover,
 button.decrement-input-type-number:hover {
-	background-color: var(--background-elevated-2);
+	background-color: var(--background-elevated-1);
 	color: var(--accent-color-main);
 }
 
@@ -312,7 +312,7 @@ input[type='number'] {
 	width: 33px;
 	height: inherit;
 
-	background-color: var(--background-elevated-2);
+	background-color: var(--background-elevated-1);
 	color: var(--font-color);
 
 	font-family: 'Zilla Slab', serif;
@@ -374,14 +374,14 @@ input[type='checkbox'] {
 
 label.select-label {
 	margin-top: 15px;
-	/* margin-bottom: -15px; */
+	margin-bottom: 2px;
 }
 
 div.select-wrapper {
 	display: flex;
 	flex-direction: column;
 
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .multiselect {
@@ -437,6 +437,8 @@ div.select-wrapper {
 	background-color: var(--background-elevated-1);
 
 	cursor: pointer;
+
+	z-index: 1;
 }
 
 #gameDifficultyOptions * {
@@ -449,6 +451,38 @@ div.select-wrapper {
 
 #gameDifficultyOptions label:hover {
 	background-color: rgba(119, 119, 119, 0.2);
+}
+
+.region-select-wrapper {
+	display: flex;
+	flex-direction: column;
+
+	font-weight: 400;
+	margin-bottom: 20px;
+}
+
+.region-selector {
+	width: 100%;
+	font-weight: 500;
+	font-family: 'Zilla Slab', serif;
+	font-size: 18px;
+	padding: 3px 2px;
+	border: 1px solid var(--accent-color-two);
+	border-top-left-radius: 0.25em;
+	border-top-right-radius: 0.25em;
+	background-color: var(--background-elevated-1);
+	color: var(--font-color);
+
+	margin-top: 2px;
+}
+
+.selected-option {
+	position: relative;
+
+	text-align: center;
+	opacity: 0.7;
+
+	z-index: 0;
 }
 
 button {

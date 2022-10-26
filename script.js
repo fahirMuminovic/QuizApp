@@ -6,9 +6,10 @@ const choosenNumberOfQuestions = document.getElementById('number-of-questions');
 const decrementNumberOfQuestionsBtn = document.querySelector('.decrement-input-type-number');
 const incrementNumberOfQuestionsBtn = document.querySelector('.increment-input-type-number');
 const allCategoriesCheckbox = document.getElementById('all');
-// const choosenNumberOfQuestionsSliderValue = document.getElementById('range-slider-value');
+const regionSelect = document.getElementById('region-selector');
 const choosenNumberOfQuestionsSliderValue = document.getElementById('direct-number-input');
 const selectGameDifficultyDropDown = document.getElementById('multiselect');
+const smallTagForDifficulty = document.getElementById('selected-difficulties-value');
 //game assets
 const questionElement = document.getElementById('question');
 const answersTextElement = document.querySelectorAll('p.answerText');
@@ -95,7 +96,19 @@ window.onload = () => {
 	//set the default value for number of questions to 10
 	choosenNumberOfQuestions.value = 10;
 	choosenNumberOfQuestionsSliderValue.value = choosenNumberOfQuestions.value;
+	//display selected difficulties in small tag
+	updateSelectedDifficultiesSmallTag();
+	//display selected region in small tag
+	document.getElementById(
+		'selected-region-value'
+	).textContent = `Selected: ${regionSelect.selectedOptions[0].innerText}`;
 };
+
+regionSelect.addEventListener('input', () => {
+	document.getElementById(
+		'selected-region-value'
+	).textContent = `Selected: ${regionSelect.selectedOptions[0].innerText}`;
+});
 
 answerWrappers.forEach((answerContainer) => {
 	//check answer
@@ -112,6 +125,8 @@ selectGameDifficultyDropDown.addEventListener('click', () => {
 	selectGameDifficultyDropDown.lastElementChild.classList.toggle('show');
 });
 
+selectGameDifficultyDropDown.addEventListener('change', updateSelectedDifficultiesSmallTag);
+
 //Functions//
 
 //makes url for fetch API depending on user game configuration
@@ -120,6 +135,7 @@ async function prepareUrls() {
 	const categories = gameConfig.categories;
 	const limit = Number(gameConfig.limit);
 	const difficulty = gameConfig.difficulty;
+	const region = regionSelect.selectedOptions[0].value;
 	const urls = [];
 
 	//if user selected 2 difficulties, fetch API need to be called 2 times
@@ -132,21 +148,23 @@ async function prepareUrls() {
 
 		//make url for limit1 dificulty1 and push to urls array
 		urls.push(
-			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit1}&difficulty=${difficulty1}`
+			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit1}&region=${region}&difficulty=${difficulty1}`
 		);
 		//make url for limit2 dificulty2 and push to urls array
 		urls.push(
-			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit2}&difficulty=${difficulty2}`
+			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit2}&region=${region}&difficulty=${difficulty2}`
 		);
 	}
 	//for no dificulty selected leave it out from url, so we get questions of all dificulties
 	else if (difficulty.length === 0) {
-		urls.push(`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}`);
+		urls.push(
+			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}&region=${region}`
+		);
 
 		//if only one difficulty is selected cast it to string and use in API call
 	} else if (difficulty.length === 1) {
 		urls.push(
-			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}&difficulty=${String(
+			`https://the-trivia-api.com/api/questions?categories=${categories}&limit=${limit}&region=${region}&difficulty=${String(
 				difficulty
 			)}`
 		);
@@ -603,3 +621,17 @@ const startQuestionTimer = (time = 20) => {
 		}
 	}, 1000);
 };
+
+function updateSelectedDifficultiesSmallTag() {
+	const gameDifficulty = Array.from(
+		document.querySelectorAll('#gameDifficultyOptions input:checked')
+	);
+
+	const smallTagForDifficultyText = gameDifficulty
+		.map((gameDifficultyOption) => {
+			return gameDifficultyOption.attributes['aria-label'].value;
+		})
+		.join(', ');
+
+	smallTagForDifficulty.textContent = `Selected: ${smallTagForDifficultyText}`;
+}
