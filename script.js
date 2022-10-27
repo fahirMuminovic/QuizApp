@@ -57,7 +57,6 @@ allCategoriesCheckbox.addEventListener('click', () => {
 			category.checked = true;
 		});
 	} else {
-		console.log('false');
 		categories.forEach((category) => {
 			category.checked = false;
 		});
@@ -350,16 +349,13 @@ function checkUsersAnswer(event) {
 	//this is to stop the user from clicking multiple times on answers
 	document.addEventListener('click', handler, true);
 	function handler(e) {
-		/* e.stopPropagation(); */
-		e.stopImmediatePropagation();
+		e.stopPropagation();
 		e.preventDefault();
 	}
 
 	//stop the question timer
 	document.getElementById('question-timer').classList.remove('start');
 	clearInterval(questionTimer);
-	/* progressBar.parentElement.ariaValueNow = 0;*/
-	/* progressBar.style.width = '0%'; */
 
 	//get clicked answer container
 	let answerContainer = event.target;
@@ -390,7 +386,7 @@ function checkUsersAnswer(event) {
 		//update user score
 		setTimeout(() => {
 			addScore();
-		}, 1500);
+		}, 1000);
 
 		//wait for 3 seconds and move to next question, remove toggled classes
 		setTimeout(() => {
@@ -404,7 +400,7 @@ function checkUsersAnswer(event) {
 
 			//move to next question
 			nextQuestion();
-		}, 3000);
+		}, 1500);
 	} else {
 		toggleBusyCursorDisplay();
 		//mark this answer as incorrectlyAnswered
@@ -430,7 +426,7 @@ function checkUsersAnswer(event) {
 
 			//move to next question
 			nextQuestion();
-		}, 3000);
+		}, 1500);
 	}
 }
 
@@ -496,8 +492,8 @@ function showCorrectAnswer() {
 	//this is to stop the user from clicking multiple times on answers
 	document.addEventListener('click', handler, true);
 	function handler(e) {
-		/* e.stopPropagation(); */
-		e.stopImmediatePropagation();
+		e.stopPropagation();
+		/* e.stopImmediatePropagation(); */
 		e.preventDefault();
 	}
 
@@ -522,7 +518,7 @@ function showCorrectAnswer() {
 		document.removeEventListener('click', handler, true);
 		toggleBusyCursorDisplay();
 		nextQuestion();
-	}, 3000);
+	}, 1500);
 }
 
 //Helper Functions//
