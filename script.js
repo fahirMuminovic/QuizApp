@@ -122,13 +122,23 @@ quitButton.addEventListener('click', () => {
 
 /* if user clicks div with game difficulties, open it. If user click out of that div then close it */
 document.addEventListener('click', (e) => {
-	const div = document.querySelector('#gameDifficultyOptions');
+	const gameDifficultyOptions = document.querySelector('#gameDifficultyOptions');
+	const multiselect = document.querySelector('#multiselect');
+	const selectBox = document.querySelector('#selectBox');
+	const overSelect = document.querySelector('.overSelect');
 	const [easy, medium, hard] = [...document.querySelectorAll('#gameDifficultyOptions input')];
 
-	if (e.target === div || e.target === easy || e.target === medium || e.target === hard) {
-		div.classList = 'show';
+	if (
+		e.target === gameDifficultyOptions ||
+		e.target === easy ||
+		e.target === medium ||
+		e.target === hard
+	) {
+		gameDifficultyOptions.classList = 'show';
+	} else if (e.target === multiselect || e.target === selectBox || e.target === overSelect) {
+		gameDifficultyOptions.classList.toggle('show');
 	} else {
-		div.classList.toggle('show');
+		gameDifficultyOptions.classList = '';
 	}
 });
 
