@@ -170,8 +170,6 @@ span {
 	flex-direction: column;
 	justify-content: center;
 
-	/* gap: 25px; */
-
 	border-radius: 12px;
 	border: none;
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
@@ -338,8 +336,6 @@ input[type='number']:focus {
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: baseline;
-
-	/* margin-top: -25px; */
 }
 
 .categories-wrapper p {
@@ -551,8 +547,8 @@ button:hover {
 }
 
 .theme-icon {
-	height: 45px;
-	width: 50px;
+	height: 90%;
+	width: 90%;
 
 	margin-left: 35px;
 
@@ -563,7 +559,7 @@ button:hover {
 	background-color: var(--accent-color-two);
 
 	background-repeat: no-repeat;
-	background-size: 30px;
+	background-size: 60% auto;
 	background-position: center;
 }
 body:not(.dark-theme) .theme-icon {
@@ -1110,4 +1106,63 @@ button#play-again {
 
 .loadingIcon.show {
 	display: block;
+}
+
+@media only screen and (max-width: 600px) {
+	body {
+		font-size: 16px;
+	}
+
+	.game-setup {
+		font-size: 16px;
+	}
+	.game-setup fieldset {
+		margin: 0 15px;
+	}
+	.game-setup fieldset legend {
+		font-size: 22px;
+		margin-bottom: 10px;
+	}
+	.checkbox-label {
+		font-size: 16px;
+	}
+	.selectBox select {
+		font-size: 16px;
+	}
+	.region-selector {
+		font-size: 16px;
+	}
+	.overSelect {
+		font-size: 16px;
+	}
+
+	.changeTheme {
+		top: 1%;
+		opacity: 0.85;
+		height: 50px;
+		width: 80px;
+	}
+	.theme-icon {
+		margin-left: 35px;
+	}
+	.score {
+		top: 8%;
+	}
+
+	.game-end-modal h3 {
+		font-size: 24px;
+	}
+	.trophy{
+		height: 20%;
+	}
+	div.score-container{
+		font-size: 18px;
+	}
+
+	.correctAnswers,
+	.incorrectAnswers,
+	#correctAnswersDisplay,
+	#incorrectAnswersDisplay {
+		font-size: 18px;
+	}
 }
