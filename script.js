@@ -8,7 +8,7 @@ const incrementNumberOfQuestionsBtn = document.querySelector('.increment-input-t
 const allCategoriesCheckbox = document.getElementById('all');
 const regionSelect = document.getElementById('region-selector');
 const choosenNumberOfQuestionsSliderValue = document.getElementById('direct-number-input');
-const selectGameDifficultyDropDown = document.getElementById('multiselect');
+const selectGameDifficultyDropDown = document.querySelector('#multiselect');
 const smallTagForDifficulty = document.getElementById('selected-difficulties-value');
 //game assets
 const questionElement = document.getElementById('question');
@@ -120,8 +120,16 @@ quitButton.addEventListener('click', () => {
 	showEndGameScreen();
 });
 
-selectGameDifficultyDropDown.addEventListener('click', () => {
-	selectGameDifficultyDropDown.lastElementChild.classList.toggle('show');
+/* if user clicks div with game difficulties, open it. If user click out of that div then close it */
+document.addEventListener('click', (e) => {
+	const div = document.querySelector('#gameDifficultyOptions');
+	const [easy, medium, hard] = [...document.querySelectorAll('#gameDifficultyOptions input')];
+
+	if (e.target === div || e.target === easy || e.target === medium || e.target === hard) {
+		div.classList = 'show';
+	} else {
+		div.classList.toggle('show');
+	}
 });
 
 selectGameDifficultyDropDown.addEventListener('change', updateSelectedDifficultiesSmallTag);
