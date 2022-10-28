@@ -461,17 +461,27 @@ div.select-wrapper {
 
 .region-selector {
 	width: 100%;
+
 	font-weight: 500;
 	font-family: 'Zilla Slab', serif;
 	font-size: 18px;
+
 	padding: 3px 2px;
+
 	border: 1px solid var(--accent-color-two);
 	border-top-left-radius: 0.25em;
 	border-top-right-radius: 0.25em;
+
 	background-color: var(--background-elevated-1);
 	color: var(--font-color);
 
 	margin-top: 2px;
+
+	cursor: pointer;
+}
+
+.region-selector > * {
+	cursor: pointer;
 }
 
 .selected-option {
@@ -1152,10 +1162,10 @@ button#play-again {
 	.game-end-modal h3 {
 		font-size: 24px;
 	}
-	.trophy{
+	.trophy {
 		height: 20%;
 	}
-	div.score-container{
+	div.score-container {
 		font-size: 18px;
 	}
 
