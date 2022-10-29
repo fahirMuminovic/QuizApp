@@ -247,9 +247,12 @@ input[type='range']::-moz-range-thumb {
 
 	height: 36px;
 	margin-top: 5px;
+
+	padding: 0;
 }
 .input-type-number-of-questions input{
 	min-width: 40px;
+	padding: 0;
 }
 button.increment-input-type-number,
 button.decrement-input-type-number {
@@ -1134,6 +1137,14 @@ button#play-again {
 	.game-setup fieldset legend {
 		font-size: 22px;
 		margin-bottom: 10px;
+	}
+	.input-type-number-of-questions{
+		padding: 0;
+		margin: 0;
+	}
+	.input-type-number-of-questions input{
+		min-width: 50px;
+		justify-self: center;
 	}
 	.checkbox-label {
 		font-size: 16px;
