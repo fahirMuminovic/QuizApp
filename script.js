@@ -79,6 +79,9 @@ choosenNumberOfQuestions.addEventListener('input', () => {
 choosenNumberOfQuestionsSliderValue.addEventListener('change', () => {
 	//update the display of chosen questions that is positioned below the slider
 	choosenNumberOfQuestions.value = choosenNumberOfQuestionsSliderValue.value;
+	if (choosenNumberOfQuestionsSliderValue.value > 50) {
+		choosenNumberOfQuestionsSliderValue.value = 50;
+	}
 });
 //decrement button by input[type='number']
 decrementNumberOfQuestionsBtn.addEventListener('click', (e) => {
