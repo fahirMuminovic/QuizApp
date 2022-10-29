@@ -246,7 +246,7 @@ input[type='range']::-moz-range-thumb {
 	align-items: center;
 
 	height: 36px;
-	margin-top: 5px;
+	margin-top: 10px;
 
 	padding: 0;
 }
@@ -1138,13 +1138,10 @@ button#play-again {
 		font-size: 22px;
 		margin-bottom: 10px;
 	}
-	.input-type-number-of-questions{
-		padding: 0;
-		margin: 0;
-	}
+
 	.input-type-number-of-questions input{
+		border-radius: 0;
 		min-width: 50px;
-		justify-self: center;
 	}
 	.checkbox-label {
 		font-size: 16px;
